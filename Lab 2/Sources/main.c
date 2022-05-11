@@ -120,21 +120,19 @@ void main(void)
             }
                         
             if(setMode){
+              setLED(128);
               if(PTH == 0x08){                // Button 3 betätigt
                  btn3 = DEBOUNCE_TIME + TCNT;
                  secsAdd();
                  timeToString();
-                 clockChanged = 1;
               } else if(PTH == 0x10){         // Button 4 betätigt
                  btn4 = DEBOUNCE_TIME + TCNT;
                  minsAdd();
                  timeToString();
-                 clockChanged = 1;
               } else if(PTH == 0x20){         // Button 5 betätigt
                  btn5 = DEBOUNCE_TIME + TCNT;
                  hrsAdd();
                  timeToString();
-                 clockChanged = 1;
               }              
             }
             

@@ -59,6 +59,7 @@ finish:
             PULA 
             JSR timeToString
             RTS
+            
  ;**************************************************************
 ; Public interface function: secsAdd ... Sekunden +1
 ; Parameter: -
@@ -94,13 +95,13 @@ minsAdd:
 minsFinish: 
             PULA
             RTS
+            
   ;**************************************************************
 ; Public interface function: hrsAdd ... Stunden+1
 ; Parameter: -
 ; Return:    -
 ; Registers: Unchanged 
 hrsAdd: 
-
             PSHA
             LDAA hrs
             CMPA #23
@@ -112,7 +113,6 @@ hrsFinish:
             PULA
             RTS
           
-  
 ;**************************************************************
 ; Public interface function: timeToString: mit dectoascii wird in string umgewandelt 
 ; Parameter: -
