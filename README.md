@@ -1,4 +1,4 @@
-# LabCA
+# Labor Computer Architecture
 
 ## Lab 1 
 Program & debug software using Assembler, laying the ground-work for the later labs: learning how to control the UI based on LEDs, the LCD display and buttons as input.
