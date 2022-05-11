@@ -118,13 +118,15 @@ void main(void)
         if(clockEvent){
             if(PTH == 4){      // Button 2 betätigt
                btn2 = DEBOUNCE_TIME + TCNT;
-               toggleMode();
-               setMode = 1; 
+               if(btn2){
+                setMode = 1;
+               }
+               
             }
           
             if(setMode){
                 if(PTH == 8){      // Button 3 betätigt
-                   //btn3= DEBOUNCE_TIME + TCNT;
+                   btn3= DEBOUNCE_TIME + TCNT;
                    secsAdd();
                    timeToString();
                 }
@@ -140,6 +142,7 @@ void main(void)
                    hrsAdd();
                    timeToString();
                 }
+                toggleMode();
             }
             
             clockEvent = 0;

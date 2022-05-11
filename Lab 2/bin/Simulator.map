@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "D:\Wissen\OneDrive - bwedu\Studium\Semester 4\Computerarchitektur\Lab\Lab 2\CA3_Lab2\lab2-Uhr-C-Vorlage\bin\Simulator.abs"
+PROGRAM "D:\Wissen\Hochschule\Semester 4\Computerarchitektur\Repositories\LabCA\Lab 2\bin\Simulator.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -30,11 +30,11 @@ _startupData is allocated at 0xC237 and uses 11 Bytes
 extern struct _tagStartup {
   unsigned flags          0
   _PFunc   main           0xC28A    (main)
-  long     stackOffset    0x123B
+  long     stackOffset    0x1237
   unsigned nofZeroOut     2
-  _Range   pZeroOut       0x1000     316
+  _Range   pZeroOut       0x1000     312
                           0x100F     6
-  _Copy    *toCopyDownBeg 0xC347
+  _Copy    *toCopyDownBeg 0xC33C
 } _startupData;
 
 *********************************************************************************************
@@ -44,8 +44,8 @@ Section Name                    Size  Type     From       To       Segment
 .init                            567     R     0xC000     0xC236   ROM_C000
 .startData                        19     R     0xC237     0xC249   ROM_C000
 .rodata1                          38     R     0xC24A     0xC26F   ROM_C000
-.text                            206     R     0xC270     0xC33D   ROM_C000
-.copy                            269     R     0xC347     0xC453   ROM_C000
+.text                            195     R     0xC270     0xC332   ROM_C000
+.copy                            269     R     0xC33C     0xC448   ROM_C000
 .data                            305   R/W     0x1000     0x1130   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -576,14 +576,14 @@ ticker.asm__ORG00001               2     R     0xFFE6     0xFFE7   .absSeg525
 thermometer.asm__ORG00001          6   R/W     0x100F     0x1014   .absSeg526
 thermometer.asm__ORG00002          2     R     0xFFD2     0xFFD3   .absSeg527
 .bss                               2   R/W     0x1131     0x1132   RAM
-.common                            9   R/W     0x1133     0x113B   RAM
-.const                             9     R     0xC33E     0xC346   ROM_C000
-.stack                           256   R/W     0x113C     0x123B   RAM
+.common                            5   R/W     0x1133     0x1137   RAM
+.const                             9     R     0xC333     0xC33B   ROM_C000
+.stack                           256   R/W     0x1138     0x1237   RAM
 .vectSeg528_vect                   2     R     0xFFFE     0xFFFF   .vectSeg528
 
 Summary of section sizes per section type:
-READ_ONLY (R):         45A (dec:     1114)
-READ_WRITE (R/W):      242 (dec:      578)
+READ_ONLY (R):         44F (dec:     1103)
+READ_WRITE (R/W):      23E (dec:      574)
 NO_INIT (N/I):         24E (dec:      590)
 
 *********************************************************************************************
@@ -1062,7 +1062,7 @@ MODULE:                 -- mc9s12dp256.c.o --
      _PORTAB                                      0       2       2       1   .abs_section_0
      _DDRAB                                       2       2       2       1   .abs_section_2
      _PARTID                                     1A       2       2       0   .abs_section_1a
-     _TCNT                                       44       2       2       1   .abs_section_44
+     _TCNT                                       44       2       2       2   .abs_section_44
      _TC0                                        50       2       2       0   .abs_section_50
      _TC1                                        52       2       2       0   .abs_section_52
      _TC2                                        54       2       2       0   .abs_section_54
@@ -1128,7 +1128,7 @@ MODULE:                 -- main.c.o --
 - PROCEDURES:
      WriteLine_Wrapper                         C270       A      10       2   .text       
      initLED_C                                 C27A      10      16       1   .text       
-     main                                      C28A      B4     180       2   .text       
+     main                                      C28A      A9     169       1   .text       
 - VARIABLES:
      STRING...IT.SS22.1                        C24A       A      10       1   .rodata1    
      STRING..2                                 C254       1       1       1   .rodata1    
@@ -1139,8 +1139,6 @@ MODULE:                 -- main.c.o --
      setMode                                   1133       1       1       3   .common     
      btn2                                      1134       2       2       1   .common     
      btn3                                      1136       2       2       1   .common     
-     btn4                                      1138       2       2       1   .common     
-     btn5                                      113A       2       2       1   .common     
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
      Init                                      C000      29      41       1   .init       
@@ -1148,7 +1146,7 @@ MODULE:                 -- Start12.c.o --
 - VARIABLES:
      _startupData                              C237       B      11       5   .startData  
 - LABELS:
-     __SEG_END_SSTACK                          123C       0       0       1               
+     __SEG_END_SSTACK                          1238       0       0       1               
 MODULE:                 -- ticker.asm.o --
 - PROCEDURES:
      initTicker                                C039      1C      28       1   .init       
@@ -1178,15 +1176,15 @@ MODULE:                 -- lcd.asm.o --
 - VARIABLES:
      VAR00001                                  1001       1       1       2   .data       
      temp1                                     1002       1       1       0   .data       
-     VAR00002                                  C33E       1       1       1   .const      
-     VAR00003                                  C33F       1       1       0   .const      
-     VAR00004                                  C340       1       1       0   .const      
-     VAR00005                                  C341       1       1       0   .const      
-     VAR00006                                  C342       1       1       1   .const      
-     VAR00007                                  C343       1       1       0   .const      
-     VAR00008                                  C344       1       1       0   .const      
-     VAR00009                                  C345       1       1       0   .const      
-     VAR00010                                  C346       1       1       0   .const      
+     VAR00002                                  C333       1       1       1   .const      
+     VAR00003                                  C334       1       1       0   .const      
+     VAR00004                                  C335       1       1       0   .const      
+     VAR00005                                  C336       1       1       0   .const      
+     VAR00006                                  C337       1       1       1   .const      
+     VAR00007                                  C338       1       1       0   .const      
+     VAR00008                                  C339       1       1       0   .const      
+     VAR00009                                  C33A       1       1       0   .const      
+     VAR00010                                  C33B       1       1       0   .const      
 MODULE:                 -- decToASCII.asm.o --
 - PROCEDURES:
      decToASCII                                C12D       E      14       4   .init       
@@ -1252,7 +1250,7 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dp256.c.o                            590      0      0
-  main.c.o                                    11    206     38
+  main.c.o                                     7    195     38
   Start12.c.o                                  0     57      0
   ticker.asm.o                                 1     65      2
   lcd.asm.o                                    2    179      9
@@ -2332,7 +2330,7 @@ SECTION: ".abs_section_2ae"
 SECTION: ".abs_section_2be"
   _CAN4TXTSR 
 SECTION: ".common"
-  setMode btn2 btn3 btn4 btn5 
+  setMode btn2 btn3 
 SECTION: ".const"
   VAR00002 VAR00003 VAR00004 VAR00005 VAR00006 VAR00007 VAR00008 VAR00009 
   VAR00010 
@@ -2385,7 +2383,7 @@ OBJECT LIST SORTED BY ADDRESS
      _CFORC                                      41       1       1       0   .abs_section_41
      _OC7M                                       42       1       1       0   .abs_section_42
      _OC7D                                       43       1       1       0   .abs_section_43
-     _TCNT                                       44       2       2       1   .abs_section_44
+     _TCNT                                       44       2       2       2   .abs_section_44
      _TSCR1                                      46       1       1       0   .abs_section_46
      _TTOV                                       47       1       1       0   .abs_section_47
      _TCTL1                                      48       1       1       0   .abs_section_48
@@ -2906,8 +2904,6 @@ OBJECT LIST SORTED BY ADDRESS
      setMode                                   1133       1       1       3   .common     
      btn2                                      1134       2       2       1   .common     
      btn3                                      1136       2       2       1   .common     
-     btn4                                      1138       2       2       1   .common     
-     btn5                                      113A       2       2       1   .common     
      Init                                      C000      29      41       1   .init       
      _Startup                                  C029      10      16       0   .init       
      initTicker                                C039      1C      28       1   .init       
@@ -2949,16 +2945,16 @@ OBJECT LIST SORTED BY ADDRESS
      STRING.Fesko.und.Moritz.4                 C25F      11      17       1   .rodata1    
      WriteLine_Wrapper                         C270       A      10       2   .text       
      initLED_C                                 C27A      10      16       1   .text       
-     main                                      C28A      B4     180       2   .text       
-     VAR00002                                  C33E       1       1       1   .const      
-     VAR00003                                  C33F       1       1       0   .const      
-     VAR00004                                  C340       1       1       0   .const      
-     VAR00005                                  C341       1       1       0   .const      
-     VAR00006                                  C342       1       1       1   .const      
-     VAR00007                                  C343       1       1       0   .const      
-     VAR00008                                  C344       1       1       0   .const      
-     VAR00009                                  C345       1       1       0   .const      
-     VAR00010                                  C346       1       1       0   .const      
+     main                                      C28A      A9     169       1   .text       
+     VAR00002                                  C333       1       1       1   .const      
+     VAR00003                                  C334       1       1       0   .const      
+     VAR00004                                  C335       1       1       0   .const      
+     VAR00005                                  C336       1       1       0   .const      
+     VAR00006                                  C337       1       1       1   .const      
+     VAR00007                                  C338       1       1       0   .const      
+     VAR00008                                  C339       1       1       0   .const      
+     VAR00009                                  C33A       1       1       0   .const      
+     VAR00010                                  C33B       1       1       0   .const      
      int22                                     FFD2       2       2       0   .text       
      int12                                     FFE6       2       2       0   .text       
 
@@ -2970,15 +2966,15 @@ main.c.o:
   decToASCII_Wrapper 
 NOT USED VARIABLES
 main.c.o:
-  tenSecCounter 
+  tenSecCounter btn4 btn5 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC347 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC33C ---- SIZE       4 ---
 Filling bytes inserted
  01071021
-------- ROM-ADDRESS: 0xC34B ---- RAM-ADDRESS: 0x1021 ---- SIZE     263 ---
+------- ROM-ADDRESS: 0xC340 ---- RAM-ADDRESS: 0x1021 ---- SIZE     263 ---
 Name of initialized Object : .data:30
  180B181003 180B3B1004 180B391005
  3D36B61005 813B240516 105B2018B6
@@ -2998,7 +2994,7 @@ Name of initialized Object : .data:30
  3DE604C130 2706180A04 7020041808
  7020180A05 703D37F610 20C8017B10
  20C68016C1 A5333D
-------- ROM-ADDRESS: 0xC452 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC447 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3039,10 +3035,9 @@ WriteLine_Wrapper         USES writeLine
 initLED_C                 USES _DDRJ _PTIJ _DDRAB _PORTAB 
 main                      USES initLED_C initLCD initClock initThermo _DDRH 
                                 STRING...IT.SS22.1 main STRING..2 WriteLine_Wrapper initTicker 
-                                clockEvent _PTH btn2 toggleMode setMode btn3 secsAdd 
-                                timeToString btn4 minsAdd btn5 hrsAdd tickClock updateTemp 
+                                clockEvent _PTH _TCNT btn2 setMode btn3 secsAdd 
+                                timeToString minsAdd hrsAdd toggleMode tickClock updateTemp 
                                 counter STRING...IT.SS22.3 STRING.Fesko.und.Moritz.4 
-                                _TCNT 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -3071,10 +3066,6 @@ DEPENDENCY TREE
  |  |        
  |  +- initTicker          
  |  |    
- |  +- toggleMode          
- |  |  | 
- |  |  +- toggleLED           
- |  |       
  |  +- secsAdd             
  |  |    
  |  +- timeToString        
@@ -3083,6 +3074,10 @@ DEPENDENCY TREE
  |  |    
  |  +- hrsAdd              
  |  |    
+ |  +- toggleMode          
+ |  |  | 
+ |  |  +- toggleLED           
+ |  |       
  |  +- tickClock           
  |  |  | 
  |  |  +- secsAdd              (see above)
@@ -3200,5 +3195,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 9
-Total size of all blocks to be downloaded: 1114
+Total size of all blocks to be downloaded: 1103
 

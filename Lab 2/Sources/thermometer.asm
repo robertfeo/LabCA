@@ -19,19 +19,19 @@ SIMULATOR: EQU 1
        INCLUDE 'mc9s12dp256.inc'
        
 ; Defines 
-maxTemp    equ    70              ; Maximal messbarer Wert
-minTemp    equ   -30              ; Minimal messbarer Wert
-max        equ  1023              ; Maximaler Sensorwert bei 10-Bit Auflösung
-range      equ  maxTemp-minTemp ; Wertebereich des Anzeigewerts    
+maxTemp    equ    70                ; Maximal messbarer Wert
+minTemp    equ   -30                ; Minimal messbarer Wert
+max        equ  1023                ; Maximaler Sensorwert bei 10-Bit Auflösung
+range      equ  maxTemp-minTemp     ; Wertebereich des Anzeigewerts    
 
 ; RAM: Variable data section
 .data: SECTION
-value:       DS.W 1                ; Measurement value
-tempStr:     DS.B 7                ; '-00000 ' -> 7 Zeichen
+value:       DS.W 1                 ; Measurement value
+tempStr:     DS.B 7                 ; '-00000 ' -> 7 Zeichen
 
  Org $100f
 
-temperature: DS.B 6                ; '-00°C ' -> 6 Zeichen
+temperature: DS.B 6                 ; '-00°C ' -> 6 Zeichen
 ;xRegisterVar DS.B 7
 ;yRegisterVar DS.B 6
 ; ROM: Constant data
@@ -40,7 +40,7 @@ temperature: DS.B 6                ; '-00°C ' -> 6 Zeichen
 ; ROM: Interrupt vector entries
 .vect: SECTION
         ORG $FFD2
-int22:  DC.W isrATD0               ; Interruptvector for interrupt 22 (ATD0)
+int22:  DC.W isrATD0                ; Interruptvector for interrupt 22 (ATD0)
 
 ; ROM: Code section
 .init: SECTION
@@ -112,14 +112,13 @@ calcTemp:
               
             LDD  value
             LDY  #range               ; Temperatur °C berechnen
-            EMUL                          ; x*100
-            LDX  #max                      
-            EDIV                          ; (x*100)/1023
+            EMUL                      ; x*100
+            LDX  #max                   
+            EDIV                      ; (x*100)/1023
             TFR  Y, D
-            ADDD #minTemp                ; ((x*100)/1023)-30
+            ADDD #minTemp             ; ((x*100)/1023)-30
             LDX #tempStr
             ;PULY in variable adresse vin y register schreiben
-           ;
             ;LDY $1008
             ;puly
            
@@ -141,13 +140,13 @@ calcTemp:
    istNull: MOVB #$20, 1, Y+
             MOVB 0, X, 1, Y+ 
       next: MOVB 5, X, 1, Y+
-            MOVB #111, 1, Y+               ; ASCII '°' in String schreiben
+            MOVB #248, 1, Y+                ; ASCII '°' in String schreiben
             MOVB #67, 1, Y+                 ; ASCII 'C' in String schreiben
             MOVB #0, 1, Y+                  ; Nullterminieren
             
             
            ; PULY
-           ; TFR Y, X                      ; weil writeLine x register nutzt
+           ; TFR Y, X                       ; weil writeLine x register nutzt
             ;INCY
            ; LDAB #1
            ; jsr writeLine 
@@ -170,13 +169,13 @@ calcTemp:
    istNull: MOVB #$20, 1, Y+
             MOVB 0, X, 1, Y+ 
       next: MOVB 5, X, 1, Y+
-            MOVB #111, 1, Y+               ; ASCII '°' in String schreiben
+            MOVB #6F, 1, Y+                 ; ASCII '°' in String schreiben
             MOVB #67, 1, Y+                 ; ASCII 'C' in String schreiben
             MOVB #0, 1, Y+                  ; Nullterminieren
             
             
            ; PULY
-           ; TFR Y, X                      ; weil writeLine x register nutzt
+           ; TFR Y, X                       ; weil writeLine x register nutzt
             ;INCY
            ; LDAB #1
            ; jsr writeLine 

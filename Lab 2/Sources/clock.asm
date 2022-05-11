@@ -244,8 +244,8 @@ timeToString:
             BEQ  nulltrue
             MOVB 4, X, 1, Y+
             BRA  nullfalse
-   nulltrue:MOVB #$20, 1, Y+
-   nullfalse:MOVB 5, X, 1, Y+  
+  nulltrue: MOVB #$20, 1, Y+
+  nullfalse:MOVB 5, X, 1, Y+  
             RTS
     
 
