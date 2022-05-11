@@ -1,14 +1,10 @@
-This project stationery is designed to get you up and running
-quickly with CodeWarrior for MC9S12DP256B.
-It is set up for the selected CPU and target connection,
-but can be easily modified.
+This project stationery is designed to get you up and running quickly with CodeWarrior for MC9S12DP256B. It is set up for the selected CPU and target connection, but can be easily modified.
 
 Sample code for the following language(s) is at your disposal:
 - Assembly
 - C
 
-The wizard has prepared CodeWarrior target(s) with the connection methods of
-your choice:
+The wizard has prepared CodeWarrior target(s) with the connection methods of your choice:
 - Simulator:
   This interface/target is prepared to use the FCS (Full Chip Simulation).
 
@@ -25,16 +21,11 @@ your choice:
   using the menu Component > Open in the debugger.
 
 
-Additional connections can be chosen in the simulator/debugger,
-use the menu Component > Set Target.
+Additional connections can be chosen in the simulator/debugger, use the menu Component > Set Target.
 
 # Getting Started
 
-To build/debug your project, use the menu Project > Debug or press F5.
-This will open the simulator/debugger.
-Press again F5 in the debugger (or menu Run > Start/Continue) to start
-the application. The menu Run > Halt or F6 stops the application.
-In the debugger menu Component > Open you can load additional components.
+To build/debug your project, use the menu Project > Debug or press F5. This will open the simulator/debugger. Press again F5 in the debugger (or menu Run > Start/Continue) to start the application. The menu Run > Halt or F6 stops the application. In the debugger menu Component > Open you can load additional components.
 
 # Project structure
 
@@ -54,26 +45,19 @@ The project generated contains various files/folders:
 
 # Adding your own code
 
-Once everything is working as expected, you can begin adding your own code
-to the project. Keep in mind that we provide this as an example of how to
-get up and running quickly with CodeWarrior. There are certainly other
-ways to handle interrupts and set up your linker command file. Feel free
-to modify any of the source files provided.
+Once everything is working as expected, you can begin adding your own code to the project. Keep in mind that we provide this as an example of how to get up and running quickly with CodeWarrior. There are certainly other ways to handle interrupts and set up your linker command file. Feel free to modify any of the source files provided.
 
 # Simulator/Debugger: Additional components
 
-In the simulator/debugger, you can load additional components. Try the menu
-Component > Open.
+In the simulator/debugger, you can load additional components. Try the menu Component > Open.
 
 # Additional documentation
 
-Check out the online documentation provided. Use in CodeWarrior IDE the
-menu Help > Online Manuals.
+Check out the online documentation provided. Use in CodeWarrior IDE the menu Help > Online Manuals.
 
 # Contacting Metrowerks
 
-For bug reports, technical questions, and suggestions, please use the
-forms installed in the Release_Notes folder and send them to:
+For bug reports, technical questions, and suggestions, please use the forms installed in the Release_Notes folder and send them to:
 USA:          support@metrowerks.com
 EUROPE:       support_europe@metrowerks.com
 ASIA/PACIFIC: j-emb-sup@metrowerks.com
