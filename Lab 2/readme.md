@@ -1,3 +1,5 @@
+# Information
+
 This project stationery is designed to get you up and running quickly with CodeWarrior for MC9S12DP256B. It is set up for the selected CPU and target connection, but can be easily modified.
 
 Sample code for the following language(s) is at your disposal:
