@@ -1,7 +1,7 @@
 OPEN source 0 0 60 42
 Source < attributes TOOLTIP on,TOOLTIP_FORMAT signed,TOOLTIP_MODE details,FREEZE off,MARKS off
 OPEN assembly 60 0 40 30
-Assembly < attributes ADR on,CODE off,ABSADR on,SYMB off,FORMAT Auto,FREEZE off,TOPPC 0xC2AE
+Assembly < attributes ADR on,CODE off,ABSADR on,SYMB off,FORMAT Auto,FREEZE off,TOPPC 0x1118
 OPEN procedure 60 60 40 17
 Procedure < attributes VALUES on,TYPES off
 OPEN register 60 30 40 30
@@ -25,4 +25,4 @@ Push_Buttons < LINKADDR "0xfffff6" "0xfffff8" "0xfffffa" "0xfffffc" "0xfffffe"
 bckcolor 50331647
 font 'Courier New' 9 BLACK
 AUTOSIZE on
-ACTIVATE "Assembly" "Register" "Source" "Memory" "Command" "Procedure" "Data" "Push_Buttons" "IO_Led" "LCD"
+ACTIVATE "Assembly" "Register" "Command" "Procedure" "Data" "IO_Led" "LCD" "Source" "Push_Buttons" "Memory"

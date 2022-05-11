@@ -28,6 +28,7 @@
         XDEF initTicker
         XREF tickClock
         XREF clockEvent
+        XREF setMode
 
 ; Import symbols
 
@@ -108,7 +109,7 @@ isrECT4:
         ldab PORTB              ; In this example we let blink the LED on port B.0
         comb
         andb #1
-        stab    PORTB
+        stab PORTB
         MOVB #1, clockEvent
         ; --- End of user code -----------------------------------------------
 

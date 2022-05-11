@@ -40,9 +40,6 @@ void initThermo(void) ;
 void updateTemp(void);
 void toggleMode(void);
 
-//int hrs=11; 
-//int mins=23; 
-//int secs=34;
 // Prototypes and wrapper functions for dec2ASCII (from lab 1)
 void decToASCII(void);
 
@@ -84,65 +81,62 @@ void initLED_C(void)
 // Global variables
 unsigned char clockEvent = 0;
 unsigned char tenSecCounter = 0;
-unsigned char setMode;
-unsigned char counter=0; 
+unsigned char counter = 0; 
 
-//buttons
+// Used to toggle between set and normal mode
+extern char setMode;
+
+// Buttons
 unsigned int  btn2;
 unsigned int  btn3;
 unsigned int  btn4;
 unsigned int  btn5;
 
+unsigned int clockChanged;
+
 
 // ****************************************************************************
-
-
-
 
 void main(void) 
 {   EnableInterrupts;                           // Global interrupt enable
 
-    initLED_C();                    		// Initialize the LEDs
-    initLCD();                    		// Initialize the LCD
+    initLED_C();                    		        // Initialize the LEDs
+    initLCD();                    	  	        // Initialize the LCD
     initClock();
     initThermo();
-    DDRH = 0;                         // Port H as inputs
+    DDRH = 0x00;                                // Port H as inputs
 
     WriteLine_Wrapper("@ IT SS22", 0);
-    WriteLine_Wrapper("", 1);    
+    WriteLine_Wrapper("Initialisation...", 1);    
 
     initTicker();                               // Initialize the time ticker
 
     for(;;)                                     // Endless loop
     {
         if(clockEvent){
-            if(PTH == 4){      // Button 2 betätigt
-               btn2 = DEBOUNCE_TIME + TCNT;
-               if(btn2){
-                setMode = 1;
-               }
-               
+            // Button 
+            if(PTH == 0x04){        
+              btn2 = DEBOUNCE_TIME + TCNT;
+              toggleMode();
             }
-          
+                        
             if(setMode){
-                if(PTH == 8){      // Button 3 betätigt
-                   btn3= DEBOUNCE_TIME + TCNT;
-                   secsAdd();
-                   timeToString();
-                }
-                
-                if(PTH == 16){      // Button 4 betätigt
-                   //btn4 = DEBOUNCE_TIME + TCNT;
-                   minsAdd();
-                   timeToString();
-                }
-                
-                if(PTH == 32){      // Button 5 betätigt
-                   //btn5 = DEBOUNCE_TIME + TCNT;
-                   hrsAdd();
-                   timeToString();
-                }
-                toggleMode();
+              if(PTH == 0x08){                // Button 3 betätigt
+                 //btn3 = DEBOUNCE_TIME + TCNT;
+                 secsAdd();
+                 timeToString();
+                 clockChanged = 1;
+              } else if(PTH == 0x10){         // Button 4 betätigt
+                 //btn4 = DEBOUNCE_TIME + TCNT;
+                 minsAdd();
+                 timeToString();
+                 clockChanged = 1;
+              } else if(PTH == 0x20){         // Button 5 betätigt
+                 //btn5 = DEBOUNCE_TIME + TCNT;
+                 hrsAdd();
+                 timeToString();
+                 clockChanged = 1;
+              }              
             }
             
             clockEvent = 0;
@@ -153,15 +147,14 @@ void main(void)
 
         	  updateTemp();
         	  counter++; 
-        	  if(counter >20){
+        	  if(counter >= 20){
           	   counter=0; 
           	   WriteLine_Wrapper("@ IT SS22", 0);
-        	  } else if (counter >10){
+        	  } else if (counter >= 10){
         	     WriteLine_Wrapper("Fesko und Moritz", 0);
         	  }
         } 
-    }
-       
+    }     
 }
 
 

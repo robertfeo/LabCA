@@ -1,25 +1,29 @@
                
 ; export symbols
-        XDEF  initClock , tickClock,timeToString, toggleMode
-        XDEF  secsAdd, minsAdd, hrsAdd 
+        XDEF  initClock , tickClock, timeToString, toggleMode
+        XDEF  secsAdd, minsAdd, hrsAdd
+        XDEF  setMode
+        
+; include derivative specific macros         
         XREF writeLine, decToASCII, calcTemp, toggleLED
 
+; Defines
 SELECT12HOURS:   equ    1
   
 ; RAM: Variable data section
 .data:  SECTION
-hrs:    ds.b 1
-mins:   ds.b 1
-secs:   ds.b 1
-time:   ds.b 19 ;"HH:MM:SSpm " -> 11 Zeichen mit Nullterminierung
-tempStr:ds.b 7
-setMode: ds.b 1
+hrs:      ds.b 1
+mins:     ds.b 1
+secs:     ds.b 1
+time:     ds.b 19 ;"HH:MM:SSpm " -> 11 Zeichen mit Nullterminierung
+tempStr:  ds.b 7
+setMode:  ds.b 1
+
  ;**************************************************************
 ; Public interface function: initClock ... Anfangsuhrzeit initialisieren 
 ; Parameter: -
 ; Return:    -
 ; Registers: Unchanged
-
  initClock:
             MOVB #24, hrs
             MOVB #59, mins         
@@ -50,19 +54,17 @@ secsOFL:
 minsOFL: 
             JSR hrsAdd
             JSR minsAdd
-            JSR secsAdd
-            
- 
- finish: 
+            JSR secsAdd 
+finish: 
             PULA 
             JSR timeToString
             RTS
  ;**************************************************************
-; Public interface function: secsAdd ... sekunden +1
+; Public interface function: secsAdd ... Sekunden +1
+; Parameter: -
 ; Return:    -
 ; Registers: Unchanged
- 
- secsAdd: 
+secsAdd: 
             PSHA
             LDAA secs
             CMPA #59
@@ -70,17 +72,17 @@ minsOFL:
            
             INC secs
             BRA secsFinish
- secsOF:    MOVB #0, secs        ; bei overflow auf 0 zurück
+secsOF:     MOVB #0, secs        ; bei overflow auf 0 zurück
             
- secsFinish: 
+secsFinish: 
             PULA
             RTS
             
  ;**************************************************************
-; Public interface function: minsAdd ... minuten +1
+; Public interface function: minsAdd ... Minuten +1
+; Parameter: -
 ; Return:    -
 ; Registers: Unchanged
- 
 minsAdd: 
             PSHA
             LDAA mins
@@ -88,23 +90,23 @@ minsAdd:
             BHS  minsOF
             INC mins
             BRA minsFinish
-    minsOF:MOVB #0, mins
+    minsOF: MOVB #0, mins
 minsFinish: 
             PULA
             RTS
   ;**************************************************************
 ; Public interface function: hrsAdd ... Stunden+1
+; Parameter: -
 ; Return:    -
-; Registers: Unchanged
- 
+; Registers: Unchanged 
 hrsAdd: 
 
             PSHA
             LDAA hrs
             CMPA #23
             BHS  hrsOF
-            INC hrs
-            BRA hrsFinish
+            INC  hrs
+            BRA  hrsFinish
     hrsOF:  MOVB #0, hrs
 hrsFinish: 
             PULA
@@ -116,8 +118,7 @@ hrsFinish:
 ; Parameter: -
 ; Return:    String mit Uhrzeit
 ; Registers: Unchanged  
-  IFGT SELECT12HOURS
-        
+  IFGT SELECT12HOURS      
 timeToString:
             PSHX
             PSHY
@@ -128,12 +129,12 @@ timeToString:
             PSHY
             LDAA #$00
             LDAB hrs
-            BEQ  test
+            BEQ  midnight
             CMPB #12
-            BLS hrsStr
+            BLS  hrsStr
             SUBB #12
-            BRA hrsStr
-     test: 
+            BRA  hrsStr
+     midnight: 
             LDD #12
      hrsStr: 
             JSR decToASCII
@@ -142,29 +143,29 @@ timeToString:
             ; hrs 1006 und 1007
             
             JSR null
-           ; MOVB 4, X, 1, Y+
-           ; MOVB 5, X, 1, Y+
-            MOVB #58, 1, Y+            ; Doppelpunkt dazu
+            ; MOVB 4, X, 1, Y+
+            ; MOVB 5, X, 1, Y+
+            MOVB #58, 1, Y+          ; Doppelpunkt dazu
             
             LDAB mins
             JSR  decToASCII
             ; mins 10A
             JSR null
 
-            ;MOVB 4, X, 1, Y+
-            ;MOVB 5, X, 1, Y+
+            ; MOVB 4, X, 1, Y+
+            ; MOVB 5, X, 1, Y+
             MOVB #58, 1, Y+
             
             LDAB secs
             JSR  decToASCII
             JSR null
-            ;MOVB 4, X, 1, Y+
-            ;MOVB 5, X, 1, Y+
+            ; MOVB 4, X, 1, Y+
+            ; MOVB 5, X, 1, Y+
             LDAB hrs
             CMPB #12
             BEQ P
-           ; CMPB #1
-           ; BEQ P
+            ; CMPB #1
+            ; BEQ P
             MOVB #$61, 1, Y+
             BRA  M
          P: MOVB #$70, 1, Y+
@@ -178,7 +179,7 @@ timeToString:
             jsr calcTemp
             
             PULY
-            TFR Y, X                      ; weil writeLine x register nutzt
+            TFR Y, X                 ; weil writeLine x register nutzt
             
             LDAB #1
             jsr writeLine 
@@ -193,19 +194,30 @@ timeToString:
             
 
 
-  
-  null:     
+;**************************************************************
+; Public interface function: null ... Kopiert den Wert aus dem Zahlenstring in den Textstring
+; Parameter: X ... pointer auf den Zahlenstring
+;            Y ... pointer auf das nächste Zeichen im Textstring
+; Return:    -
+; Registers: Y-Reg wird hochgezählt abhängig von den geschriebenen Zeichen
+;            B-Reg ändert sich, aber wird nicht mehr benötigt      
+null:     
             LDAB 4, X
             CMPB #$30
             BEQ  nulltrue
             MOVB 4, X, 1, Y+
             BRA  nullfalse
-  nulltrue: MOVB #$20, 1, Y+
-  nullfalse:MOVB 5, X, 1, Y+  
+nulltrue:   MOVB #$20, 1, Y+
+nullfalse:  MOVB 5, X, 1, Y+  
             RTS
     
-
-  toggleMode: 
+;**************************************************************
+; Public interface function: toggleMode ... Converts a 16-Bit value into an equal dec-string
+; Parameter: X ... pointer to string
+;            D ... holds the value
+; Return:    String value in RAM-Memory (on X-Reg adress)
+; Registers: Unchanged
+toggleMode: 
             PSHB
             LDAB setMode
             EORB #$01
