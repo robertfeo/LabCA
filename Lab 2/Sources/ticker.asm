@@ -106,10 +106,13 @@ isrECT4:
         
         ; --- Add user code here: Add whatever you want to do every second ---
 
+        
         ldab PORTB              ; In this example we let blink the LED on port B.0
         comb
         andb #1
         stab PORTB
+        
+        
         MOVB #1, clockEvent
         ; --- End of user code -----------------------------------------------
 

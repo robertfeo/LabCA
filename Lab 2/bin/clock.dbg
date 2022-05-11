@@ -25,9 +25,9 @@ setMode:  ds.b 1
 ; Return:    -
 ; Registers: Unchanged
  initClock:
-            MOVB #24, hrs
+            MOVB #11, hrs
             MOVB #59, mins         
-            MOVB #57, secs
+            MOVB #30, secs
             RTS 
             
  ;**************************************************************
