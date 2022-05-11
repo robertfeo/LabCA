@@ -1,2 +1,0 @@
-# LabCA
-Lab Computer Architecture
