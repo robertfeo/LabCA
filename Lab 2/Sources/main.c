@@ -83,7 +83,6 @@ void initLED_C(void)
 
 // Global variables
 unsigned char clockEvent = 0;
-unsigned char tenSecCounter = 0;
 unsigned char counter = 0; 
 
 // Set/Normal mode
