@@ -5,6 +5,8 @@
     Hochschule Esslingen
 
     Author:  W.Zimmermann, July 19, 2017
+    
+    Robert Fesko, Selina Moritz
 */
 
 #include <hidef.h>                              // Common defines
