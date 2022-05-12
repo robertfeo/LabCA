@@ -15,7 +15,7 @@ SELECT12HOURS:   equ    1
 hrs:      ds.b 1
 mins:     ds.b 1
 secs:     ds.b 1
-time:     ds.b 19 ;"HH:MM:SSpm " -> 11 Zeichen mit Nullterminierung
+time:     ds.b 19 ;"HH:MM:SSpm " -> 11 Zeichen mit Nullterminierung + temperatur
 tempStr:  ds.b 7
 setMode:  ds.b 1
 
@@ -23,20 +23,20 @@ setMode:  ds.b 1
 ; Public interface function: initClock ... Anfangsuhrzeit initialisieren 
 ; Parameter: -
 ; Return:    -
-; Registers: Unchanged
+; Registers: -
 
 ; 0Uhr, nicht 24Uhr eingeben 
  initClock:
-            MOVB #0, hrs
+            MOVB #00, hrs
             MOVB #59, mins         
-            MOVB #58, secs
+            MOVB #30, secs
             RTS 
             
  ;**************************************************************
 ; Public interface function: tickClock ... bei Aufruf hochzählen und Überlauf prüfen  
 ; Parameter: -
 ; Return:    einen String mit der Uhrzeit
-; Registers: Unchanged
+; Registers: -
 tickClock:  
             PSHA
             LDAA secs
@@ -66,7 +66,7 @@ finish:
 ; Public interface function: secsAdd ... Sekunden +1
 ; Parameter: -
 ; Return:    -
-; Registers: Unchanged
+; Registers: -
 secsAdd: 
             PSHA
             LDAA secs
@@ -85,7 +85,7 @@ secsFinish:
 ; Public interface function: minsAdd ... Minuten +1
 ; Parameter: -
 ; Return:    -
-; Registers: Unchanged
+; Registers: -
 minsAdd: 
             PSHA
             LDAA mins
@@ -102,7 +102,7 @@ minsFinish:
 ; Public interface function: hrsAdd ... Stunden+1
 ; Parameter: -
 ; Return:    -
-; Registers: Unchanged 
+; Registers: - 
 hrsAdd: 
             PSHA
             LDAA hrs
@@ -119,7 +119,7 @@ hrsFinish:
 ; Public interface function: timeToString: mit dectoascii wird in string umgewandelt 
 ; Parameter: -
 ; Return:    String mit Uhrzeit (und Temperatur im nächsten Schritt)
-; Registers: Unchanged  
+; Registers: -  
   IFGT SELECT12HOURS      
 timeToString:
             PSHX
@@ -141,34 +141,23 @@ timeToString:
             LDD #12
      hrsStr: 
             JSR decToASCII
-            
-            
-            ; hrs 1006 und 1007
-            
             JSR null
-            ; MOVB 4, X, 1, Y+
-            ; MOVB 5, X, 1, Y+
             MOVB #58, 1, Y+          ; Doppelpunkt dazu
             
             LDAB mins
             JSR  decToASCII
-            ; mins 10A
             JSR null
 
-            ; MOVB 4, X, 1, Y+
-            ; MOVB 5, X, 1, Y+
             MOVB #58, 1, Y+
             
             LDAB secs
             JSR  decToASCII
             JSR null
-            ; MOVB 4, X, 1, Y+
-            ; MOVB 5, X, 1, Y+
+
             LDAB hrs
             CMPB #12
             BGE P
-            ; CMPB #1
-            ; BEQ P
+
             MOVB #$61, 1, Y+
             BRA  M
          P: MOVB #$70, 1, Y+
@@ -199,7 +188,7 @@ timeToString:
 ;**************************************************************
 ; Public interface function:um führende Nullen zu entfernen
 ; Parameter: X ... pointer auf den Zahlenstring
-;            Y ... pointer auf das nächste Zeichen im Textstring
+;            Y ... pointer auf das nächste Zeichen im string
 ; Return:    -
 ; Registers: Y-Reg wird hochgezählt je nach geschriebenen Zeichen
 ;            B-Reg ändert sich, aber nicht mehr nötigt      

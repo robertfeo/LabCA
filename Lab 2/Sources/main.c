@@ -5,6 +5,8 @@
     Hochschule Esslingen
 
     Author:  W.Zimmermann, July 19, 2017
+    
+    Robert Fesko, Selina Moritz
 */
 
 #include <hidef.h>                              // Common defines
@@ -100,11 +102,11 @@ void main(void)
 {   
     EnableInterrupts;                           // Global interrupt enable
 
-    initLED_C();                    		        // Initialize the LEDs
-    initLCD();                    	  	        // Initialize the LCD
-    initTicker();                               // Initialize the time ticker
+    initLED_C();                    		        // initialsiere LEDs
+    initLCD();                    	  	        // initialsiere LCD
+    initTicker();                               // initialsiere time ticker
     initClock();
-    initThermo();
+    initThermo();                               // initialsiere Thermometer
     DDRH = 0x00;                                // Port H as inputs
     
     WriteLine_Wrapper("@ IT SS22", 0);
@@ -114,7 +116,7 @@ void main(void)
     {
         if(clockEvent)
         {
-            if(PTH == 0x04)                   // Button 2 betätigt
+            if(PTH == 0x04)                   // Button 2
             {        
                 btn2 = DEBOUNCE_TIME + TCNT;
                 toggleMode();
@@ -122,17 +124,17 @@ void main(void)
                         
             if(setMode)
             {
-                if(PTH == 0x08)                 // Button 3 betätigt
+                if(PTH == 0x08)                 // Button  3
                 {                
                    btn3 = DEBOUNCE_TIME + TCNT;
                    secsAdd();
                    timeToString();
-                } else if(PTH == 0x10)          // Button 4 betätigt
+                } else if(PTH == 0x10)          // Button 4
                 {         
                    btn4 = DEBOUNCE_TIME + TCNT;
                    minsAdd();
                    timeToString();
-                } else if(PTH == 0x20)          // Button 5 betätigt
+                } else if(PTH == 0x20)          // Button 5
                 {         
                    btn5 = DEBOUNCE_TIME + TCNT;
                    hrsAdd();

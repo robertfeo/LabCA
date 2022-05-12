@@ -12849,12 +12849,11 @@ int22:  DC.W isrATD0                ; Interruptvector for interrupt 22 (ATD0)
 .init: SECTION
 
 ;**************************************************************
-; Public interface function: initThermo ... Initialisiert den AD-Koverter mit den Parametern
+; Public interface function: initThermo ... Initialisiert mit den Parametern
 ; Parameter: -
 ; Return:    -
-; Registers: Unchanged
-; Error checks:
-;   none
+; Registers: -
+
 initThermo:
             MOVB #%11000010, ATD0CTL2     ; Enable ATD0, enable interrupt
             MOVB #%00100000, ATD0CTL3     ; Sequence: 4 measurements
@@ -12864,11 +12863,11 @@ initThermo:
             RTS
 
 ;********************************************************************
-; Internal function: isrATD0 ... Interrupt service routine, called by the ATD0
+; Internal function: isrATD0 ... Interrupt service routine, von ATD0 aufgerufen
 ; Parameter: -
 ; Return:    Liest den ATD0 aus und speichert den Wert in die Variable value
 ; Error checks:
-;   Unterscheided zwischen Simulation und Monitoring in der Funktion des Interrupts
+;   Unterschied zwischen Simulation und Monitoring
 isrATD0:  
             LDD  ATD0DR0                  ; Read the result registers,
             ADDD ATD0DR1                  ; ... compute average of 4 measurements
@@ -12887,20 +12886,20 @@ isrATD0:
             RTI                           ; Return from interrupt service routine
 
 ;**************************************************************
-; Public interface function: updateTemp ... ändern der Temperatur
+; Public interface function: ändern der Temperatur
 ; Parameter: -
 ; Return:    -
-; Registers: Unchanged
+; Registers: -
 updateTemp:  
             BSET ATD0CTL2, #$01
             MOVB #%10000111, ATD0CTL5
             RTS
 
 ;**************************************************************
-; Public interface function: calcTemp ... Wandelt den Zahlenwert in einen String
+; Public interface function: Wandelt den Zahlenwert in einen String
 ; Parameter: -
 ; Return:    String in Variable 'temperature'
-; Registers: Unchanged
+; Registers: -
 
 calcTemp:   
             PSHX
