@@ -5,7 +5,7 @@ SIMULATOR: EQU 1
   ENDIF
 
 ; export symbols	   
-        XDEF  calcTemp
+        XDEF calcTemp
         XDEF temperature
 
 ; import symbols

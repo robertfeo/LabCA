@@ -131,7 +131,7 @@ timeToString:
             PSHY
             LDAA #$00
             LDAB hrs
-            BEQ midnight          ; bei 23 wird hrs auf 0 gesetzt, dann muss hrs bei 12 am weiter gehen
+            BEQ midnight             ; bei 23 wird hrs auf 0 gesetzt, dann muss hrs bei 12 am weiter gehen
             CMPB #12
             BLS hrsStr
             SUBB #12
