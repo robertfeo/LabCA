@@ -8,7 +8,7 @@
         XREF writeLine, decToASCII, calcTemp, toggleLED
 
 ; Defines
-SELECT12HOURS:   equ    0
+SELECT12HOURS:   equ    1
   
 ; RAM: Variable data section
 .data:  SECTION
@@ -27,7 +27,7 @@ setMode:  ds.b 1
  initClock:
             MOVB #11, hrs
             MOVB #59, mins         
-            MOVB #30, secs
+            MOVB #55, secs
             RTS 
             
  ;**************************************************************
@@ -116,7 +116,7 @@ hrsFinish:
 ;**************************************************************
 ; Public interface function: timeToString: mit dectoascii wird in string umgewandelt 
 ; Parameter: -
-; Return:    String mit Uhrzeit
+; Return:    String mit Uhrzeit (und Temperatur im nächsten Schritt)
 ; Registers: Unchanged  
   IFGT SELECT12HOURS      
 timeToString:
@@ -237,12 +237,12 @@ timeToString:
 
 
 ;**************************************************************
-; Public interface function: null ... Kopiert den Wert aus dem Zahlenstring in den Textstring
+; Public interface function:um führende Nullen zu entfernen
 ; Parameter: X ... pointer auf den Zahlenstring
 ;            Y ... pointer auf das nächste Zeichen im Textstring
 ; Return:    -
-; Registers: Y-Reg wird hochgezählt abhängig von den geschriebenen Zeichen
-;            B-Reg ändert sich, aber wird nicht mehr benötigt      
+; Registers: Y-Reg wird hochgezählt je nach geschriebenen Zeichen
+;            B-Reg ändert sich, aber nicht mehr nötigt      
 null:     
             LDAB 4, X
             CMPB #$30
@@ -254,9 +254,9 @@ nullfalse:  MOVB 5, X, 1, Y+
             RTS
     
 ;**************************************************************
-; Public interface function: toggleMode ... Converts a 16-Bit value into an equal dec-string
-; Parameter: X ... pointer to string
-;            D ... holds the value
+; Public interface function: toggleMode ... Konvertiert einen 16 bit Wert in einen dec string
+; Parameter: X: zeigt auf string
+;            D: speichert wert
 ; Return:    String value in RAM-Memory (on X-Reg adress)
 ; Registers: Unchanged
 toggleMode: 

@@ -8,7 +8,7 @@
         XREF writeLine, decToASCII, calcTemp, toggleLED
 
 ; Defines
-SELECT12HOURS:   equ    0
+SELECT12HOURS:   equ    1
   
 ; RAM: Variable data section
 .data:  SECTION
@@ -27,7 +27,7 @@ setMode:  ds.b 1
  initClock:
             MOVB #11, hrs
             MOVB #59, mins         
-            MOVB #30, secs
+            MOVB #55, secs
             RTS 
             
  ;**************************************************************
@@ -116,35 +116,60 @@ hrsFinish:
 ;**************************************************************
 ; Public interface function: timeToString: mit dectoascii wird in string umgewandelt 
 ; Parameter: -
-; Return:    String mit Uhrzeit
+; Return:    String mit Uhrzeit (und Temperatur im nächsten Schritt)
 ; Registers: Unchanged  
   IFGT SELECT12HOURS      
-   ELSE
-timeToString:   
+timeToString:
             PSHX
             PSHY
             PSHD
            
-            LDX  #tempStr
-            LDY  #time
+            LDX  #tempStr            ; temp string für dectoascii rechnung
+            LDY  #time               ; richtige Uhrzeit
             PSHY
             LDAA #$00
             LDAB hrs
-            JSR  decToASCII
+            BEQ  midnight
+            CMPB #12
+            BLS  hrsStr
+            SUBB #12
+            BRA  hrsStr
+     midnight: 
+            LDD #12
+     hrsStr: 
+            JSR decToASCII
+            
+            
+            ; hrs 1006 und 1007
             
             JSR null
-            MOVB #58, 1, Y+
+            ; MOVB 4, X, 1, Y+
+            ; MOVB 5, X, 1, Y+
+            MOVB #58, 1, Y+          ; Doppelpunkt dazu
             
             LDAB mins
             JSR  decToASCII
-            
+            ; mins 10A
             JSR null
+
+            ; MOVB 4, X, 1, Y+
+            ; MOVB 5, X, 1, Y+
             MOVB #58, 1, Y+
             
             LDAB secs
             JSR  decToASCII
-            
             JSR null
+            ; MOVB 4, X, 1, Y+
+            ; MOVB 5, X, 1, Y+
+            LDAB hrs
+            CMPB #12
+            BEQ P
+            ; CMPB #1
+            ; BEQ P
+            MOVB #$61, 1, Y+
+            BRA  M
+         P: MOVB #$70, 1, Y+
+         M: MOVB #$6D, 1, Y+  
             MOVB #$20, 1, Y+   
 
 
@@ -154,7 +179,7 @@ timeToString:
             jsr calcTemp
             
             PULY
-            TFR Y, X                      ; weil writeLine x register nutzt
+            TFR Y, X                 ; weil writeLine x register nutzt
             
             LDAB #1
             jsr writeLine 
@@ -163,17 +188,18 @@ timeToString:
             PULY
             PULX
             RTS
+   ELSE
   ENDIF
             
 
 
 ;**************************************************************
-; Public interface function: null ... Kopiert den Wert aus dem Zahlenstring in den Textstring
+; Public interface function:um führende Nullen zu entfernen
 ; Parameter: X ... pointer auf den Zahlenstring
 ;            Y ... pointer auf das nächste Zeichen im Textstring
 ; Return:    -
-; Registers: Y-Reg wird hochgezählt abhängig von den geschriebenen Zeichen
-;            B-Reg ändert sich, aber wird nicht mehr benötigt      
+; Registers: Y-Reg wird hochgezählt je nach geschriebenen Zeichen
+;            B-Reg ändert sich, aber nicht mehr nötigt      
 null:     
             LDAB 4, X
             CMPB #$30
@@ -185,9 +211,9 @@ nullfalse:  MOVB 5, X, 1, Y+
             RTS
     
 ;**************************************************************
-; Public interface function: toggleMode ... Converts a 16-Bit value into an equal dec-string
-; Parameter: X ... pointer to string
-;            D ... holds the value
+; Public interface function: toggleMode ... Konvertiert einen 16 bit Wert in einen dec string
+; Parameter: X: zeigt auf string
+;            D: speichert wert
 ; Return:    String value in RAM-Memory (on X-Reg adress)
 ; Registers: Unchanged
 toggleMode: 
