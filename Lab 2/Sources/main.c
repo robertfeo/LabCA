@@ -66,7 +66,7 @@ void WriteLine_Wrapper(char *text, char line)
 }
 
 
-  // ****************************************************************************         
+// ****************************************************************************         
 
 // ****************************************************************************
 
@@ -78,6 +78,7 @@ void initLED_C(void)
 }
 
 // ****************************************************************************
+
 #define DEBOUNCE_TIME 37500  // 200ms / 5,3333us
 
 // Global variables
@@ -119,7 +120,6 @@ void main(void)
             }
                         
             if(setMode){
-              PORTB = 0x80;
               if(PTH == 0x08){                // Button 3 betätigt
                  btn3 = DEBOUNCE_TIME + TCNT;
                  secsAdd();
@@ -132,7 +132,8 @@ void main(void)
                  btn5 = DEBOUNCE_TIME + TCNT;
                  hrsAdd();
                  timeToString();
-              }              
+              }
+              PORTB = 0x80;              
             }
             
             clockEvent = 0;
