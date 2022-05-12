@@ -148,16 +148,16 @@ void main(void)
             if(!setMode)
             {
             	  tickClock();
-            	  convertADC();
-            	  counter++; 
-            	  if(counter >= 20)
-            	  {
-              	   counter=0; 
-              	   WriteLine_Wrapper("@ IT SS22", 0);
-            	  } else if (counter >= 10)
-            	  {
-            	     WriteLine_Wrapper("Fesko und Moritz", 0);
-            	  }
+        	  }
+        	  convertADC();
+        	  counter++; 
+        	  if(counter >= 20)
+        	  {
+          	   counter=0; 
+          	   WriteLine_Wrapper("@ IT SS22", 0);
+        	  } else if (counter >= 10)
+        	  {
+        	     WriteLine_Wrapper("Fesko und Moritz", 0);
         	  }
         } 
     }     
