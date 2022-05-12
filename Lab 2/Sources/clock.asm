@@ -27,7 +27,7 @@ setMode:  ds.b 1
 
 ; 0Uhr, nicht 24Uhr eingeben 
  initClock:
-            MOVB #11, hrs
+            MOVB #00, hrs
             MOVB #59, mins         
             MOVB #30, secs
             RTS 
