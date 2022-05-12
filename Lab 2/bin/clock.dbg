@@ -8,7 +8,7 @@
         XREF writeLine, decToASCII, calcTemp, toggleLED
 
 ; Defines
-SELECT12HOURS:   equ    1
+SELECT12HOURS:   equ    0
   
 ; RAM: Variable data section
 .data:  SECTION
@@ -121,48 +121,33 @@ hrsFinish:
 ; Return:    String mit Uhrzeit (und Temperatur im nächsten Schritt)
 ; Registers: -  
   IFGT SELECT12HOURS      
-timeToString:
+   ELSE
+timeToString:   
             PSHX
             PSHY
             PSHD
            
-            LDX  #tempStr            ; temp string für dectoascii rechnung
-            LDY  #time               ; richtige Uhrzeit
+            LDX  #tempStr
+            LDY  #time
             PSHY
             LDAA #$00
             LDAB hrs
-            BEQ midnight          ; bei 23 wird hrs auf 0 gesetzt, dann muss hrs bei 12 am weiter gehen
-            CMPB #12
-            BLS hrsStr
-            SUBB #12
-            BRA hrsStr 
-
-     midnight: 
-            LDD #12
-     hrsStr: 
-            JSR decToASCII
+            JSR  decToASCII
+            
             JSR null
-            MOVB #58, 1, Y+          ; Doppelpunkt dazu
+            MOVB #58, 1, Y+
             
             LDAB mins
             JSR  decToASCII
+            
             JSR null
-
             MOVB #58, 1, Y+
             
             LDAB secs
             JSR  decToASCII
+            
             JSR null
-
-            LDAB hrs
-            CMPB #12
-            BGE P
-
-            MOVB #$61, 1, Y+
-            BRA  M
-         P: MOVB #$70, 1, Y+
-         M: MOVB #$6D, 1, Y+  
-            ;MOVB #$20, 1, Y+   
+            MOVB #$20, 1, Y+   
 
 
             MOVB #$20, 1, Y+
@@ -171,7 +156,7 @@ timeToString:
             jsr calcTemp
             
             PULY
-            TFR Y, X                 ; weil writeLine x register nutzt
+            TFR Y, X                     
             
             LDAB #1
             jsr writeLine 
@@ -180,7 +165,6 @@ timeToString:
             PULY
             PULX
             RTS
-   ELSE
   ENDIF
             
 
