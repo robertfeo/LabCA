@@ -3025,11 +3025,11 @@ finish                    USES value
 calcTemp                  USES value tempStr decToASCII 
 WriteLine_Wrapper         USES writeLine 
 initLED_C                 USES _DDRJ _PTIJ _DDRAB _PORTAB 
-main                      USES initLED_C initLCD initClock initThermo _DDRH 
-                                STRING...IT.SS22.1 main STRING.Initialisation....2 
-                                WriteLine_Wrapper initTicker clockEvent _PTH btn2 toggleMode 
-                                setMode _PORTAB btn3 secsAdd btn4 minsAdd btn5 hrsAdd 
-                                timeToString tickClock updateTemp counter 
+main                      USES STRING...IT.SS22.1 main 
+                                STRING.Initialisation....2 WriteLine_Wrapper initLED_C initLCD initTicker 
+                                initClock initThermo _DDRH clockEvent _PTH btn2 
+                                toggleMode setMode btn3 secsAdd btn4 minsAdd btn5 hrsAdd 
+                                timeToString _PORTAB tickClock updateTemp counter 
                                 STRING...IT.SS22.3 STRING.Fesko.und.Moritz.4 _TCNT 
 
 *********************************************************************************************
@@ -3039,25 +3039,25 @@ DEPENDENCY TREE
  | 
  +- main                
  |  | 
+ |  +- WriteLine_Wrapper   
+ |  |  | 
+ |  |  +- writeLine           
+ |  |     | 
+ |  |     +- sel_inst            
+ |  |          
  |  +- initLED_C           
  |  |    
  |  +- initLCD             
  |  |  | 
  |  |  +- delay_10ms          
  |  |  |    
- |  |  +- sel_inst            
- |  |       
+ |  |  +- sel_inst             (see above)
+ |  |     
+ |  +- initTicker          
+ |  |    
  |  +- initClock           
  |  |    
  |  +- initThermo          
- |  |    
- |  +- WriteLine_Wrapper   
- |  |  | 
- |  |  +- writeLine           
- |  |     | 
- |  |     +- sel_inst             (see above)
- |  |        
- |  +- initTicker          
  |  |    
  |  +- toggleMode          
  |  |  | 
