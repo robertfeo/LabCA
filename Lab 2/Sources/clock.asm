@@ -8,7 +8,7 @@
         XREF writeLine, decToASCII, calcTemp, toggleLED
 
 ; Defines
-SELECT12HOURS:   equ    1
+SELECT12HOURS:   equ    0
   
 ; RAM: Variable data section
 .data:  SECTION

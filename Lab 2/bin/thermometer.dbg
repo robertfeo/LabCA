@@ -12929,7 +12929,8 @@ calcTemp:
             JSR decToASCII
 
    IFDEF SELECT12HOURS
-            MOVB #$6D, 1, Y+      ;m
+            ;MOVB #$6D, 1, Y+      ;m
+            MOVB #$20, 1, Y+
             MOVB #$20, 1, Y+
 
             LDAB 4, X

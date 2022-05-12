@@ -45,7 +45,8 @@ void decToASCII(void);
 
 void decToASCII_Wrapper(char *txt, int val)
 {   asm
-    {  	LDX txt
+    {  	
+        LDX txt
         LDD val
         JSR decToASCII
     }
@@ -57,7 +58,8 @@ void writeLine(void);
 
 void WriteLine_Wrapper(char *text, char line)
 {   asm
-    {	LDX  text
+    {	
+        LDX  text
         LDAB line
         JSR  writeLine
     }
@@ -83,7 +85,7 @@ unsigned char clockEvent = 0;
 unsigned char tenSecCounter = 0;
 unsigned char counter = 0; 
 
-// Used to toggle between set and normal mode
+// Set/Normal mode
 extern char setMode;
 
 // Buttons
@@ -91,9 +93,6 @@ unsigned int  btn2;
 unsigned int  btn3;
 unsigned int  btn4;
 unsigned int  btn5;
-
-unsigned int clockChanged;
-
 
 // ****************************************************************************
 
@@ -120,7 +119,7 @@ void main(void)
             }
                         
             if(setMode){
-              setLED(128);
+              PORTB = 0x80;
               if(PTH == 0x08){                // Button 3 betätigt
                  btn3 = DEBOUNCE_TIME + TCNT;
                  secsAdd();
