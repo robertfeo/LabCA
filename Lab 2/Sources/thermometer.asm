@@ -11,7 +11,7 @@ SIMULATOR: EQU 1
 ; import symbols
         XREF decToASCII, writeLine
         
-   SELECT12HOURS:   equ    1
+   SELECT12HOURS:   equ    0
 
 
 
@@ -127,8 +127,8 @@ calcTemp:
 
             JSR decToASCII
 
-   IFDEF SELECT12HOURS
-            ;MOVB #$6D, 1, Y+      ;m
+  IFGT SELECT12HOURS      
+            MOVB #$6D, 1, Y+      ;m
             MOVB #$20, 1, Y+
             MOVB #$20, 1, Y+
 
@@ -170,7 +170,7 @@ calcTemp:
    istNull: MOVB #$20, 1, Y+
             MOVB 0, X, 1, Y+ 
       next: MOVB 5, X, 1, Y+
-            MOVB #6F, 1, Y+                 ; ASCII '°' in String schreiben
+            MOVB #$6F, 1, Y+                 ; ASCII '°' in String schreiben
             MOVB #67, 1, Y+                 ; ASCII 'C' in String schreiben
             MOVB #0, 1, Y+                  ; Nullterminieren
             
