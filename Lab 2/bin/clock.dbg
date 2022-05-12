@@ -24,10 +24,12 @@ setMode:  ds.b 1
 ; Parameter: -
 ; Return:    -
 ; Registers: Unchanged
+
+; 0Uhr, nicht 24Uhr eingeben 
  initClock:
-            MOVB #11, hrs
+            MOVB #0, hrs
             MOVB #59, mins         
-            MOVB #55, secs
+            MOVB #58, secs
             RTS 
             
  ;**************************************************************
@@ -129,11 +131,12 @@ timeToString:
             PSHY
             LDAA #$00
             LDAB hrs
-            BEQ  midnight
+            BEQ midnight          ; bei 23 wird hrs auf 0 gesetzt, dann muss hrs bei 12 am weiter gehen
             CMPB #12
-            BLS  hrsStr
+            BLS hrsStr
             SUBB #12
-            BRA  hrsStr
+            BRA hrsStr 
+
      midnight: 
             LDD #12
      hrsStr: 
@@ -163,7 +166,7 @@ timeToString:
             ; MOVB 5, X, 1, Y+
             LDAB hrs
             CMPB #12
-            BEQ P
+            BGE P
             ; CMPB #1
             ; BEQ P
             MOVB #$61, 1, Y+
