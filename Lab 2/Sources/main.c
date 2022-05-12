@@ -1,12 +1,12 @@
 /*  Lab 2 - Main C file for Clock program
 
-    Computerarchitektur 3
+    Computerarchitektur
     (C) 2018 J. Friedrich, W. Zimmermann
     Hochschule Esslingen
 
-    Author:  W.Zimmermann, July 19, 2017
+    Provided by:  W.Zimmermann, July 19, 2017
     
-    Robert Fesko, Selina Moritz
+    Author: Robert Fesko, Selina Moritz
 */
 
 #include <hidef.h>                              // Common defines
@@ -106,7 +106,7 @@ void main(void)
     initLCD();                    	  	        // initialsiere LCD
     initTicker();                               // initialsiere time ticker
     initClock();
-    initADC();                               // initialsiere Thermometer
+    initADC();                                  // initialsiere ADC
     DDRH = 0x00;                                // Port H as inputs
     
     WriteLine_Wrapper("@ IT SS22", 0);
@@ -116,7 +116,7 @@ void main(void)
     {
         if(clockEvent)
         {
-            if(PTH == 0x04)                   // Button 2
+            if(PTH == 0x04)                     // Button 2
             {        
                 btn2 = DEBOUNCE_TIME + TCNT;
                 toggleMode();
@@ -148,7 +148,6 @@ void main(void)
             if(!setMode)
             {
             	  tickClock();
-            	  
             	  convertADC();
             	  counter++; 
             	  if(counter >= 20)

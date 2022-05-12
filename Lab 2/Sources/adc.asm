@@ -34,6 +34,7 @@ initADC:
 
             MOVB #%10000111, ATD0CTL5     ; Start first measurement on single channel 7
             RTS
+            
 ;**************************************************************
 ; Public interface function: ändern der Temperatur
 ; Parameter: -
@@ -43,9 +44,6 @@ convertADC:
             BSET ATD0CTL2, #$01
             MOVB #%10000111, ATD0CTL5
             RTS
-            
-            
-
 
 ;********************************************************************
 ; Internal function: isrATD0 ... Interrupt service routine, von ATD0 aufgerufen
