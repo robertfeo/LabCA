@@ -131,7 +131,7 @@ calcTemp:
             LDAB 4, X
             CMPB #$30
             BEQ  istNull
-            MOVB 0, X, 1, Y+
+           ; MOVB 0, X, 1, Y+
             MOVB 4, X, 1, Y+
             BRA  next
    istNull: MOVB #$20, 1, Y+

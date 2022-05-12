@@ -162,7 +162,7 @@ timeToString:
             BRA  M
          P: MOVB #$70, 1, Y+
          M: MOVB #$6D, 1, Y+  
-            MOVB #$20, 1, Y+   
+            ;MOVB #$20, 1, Y+   
 
 
             MOVB #$20, 1, Y+
