@@ -38,8 +38,8 @@ void timeToString(void);
 void secsAdd(void);
 void minsAdd(void);
 void hrsAdd(void);
-void initThermo(void) ;
-void updateTemp(void);
+void initADC(void) ;
+void convertADC(void);
 void toggleMode(void);
 
 // Prototypes and wrapper functions for dec2ASCII (from lab 1)
@@ -106,7 +106,7 @@ void main(void)
     initLCD();                    	  	        // initialsiere LCD
     initTicker();                               // initialsiere time ticker
     initClock();
-    initThermo();                               // initialsiere Thermometer
+    initADC();                               // initialsiere Thermometer
     DDRH = 0x00;                                // Port H as inputs
     
     WriteLine_Wrapper("@ IT SS22", 0);
@@ -149,7 +149,7 @@ void main(void)
             {
             	  tickClock();
             	  
-            	  updateTemp();
+            	  convertADC();
             	  counter++; 
             	  if(counter >= 20)
             	  {

@@ -1,20 +1,8 @@
-  IFNDEF _HCS12_SERIALMON
-    IFNDEF SIMULATOR 
-    ENDIF
-  ENDIF
 
 ; export symbols	   
-        XDEF  calcTemp
-        XDEF temperature
+        XDEF initADC, convertADC , value
 
-; import symbols
-        XREF decToASCII, writeLine
-        
-   SELECT12HOURS:   equ    1
-
-
-
-; include derivative specific macros
+  ; include derivative specific macros
        INCLUDE 'mc9s12dp256.inc'
 ; Based on CPU DB MC9S12DP256_112, version 2.87.441 (RegistersPrg V2.28)
 
@@ -12820,87 +12808,69 @@ mNVFSEC_KEYEN:      equ    %10000000
 ; ---------------------------------------------------------------------------
 
 ; EOF
-       
-; Defines 
-maxTemp    equ    70                ; Maximal messbarer Wert
-minTemp    equ   -30                ; Minimal messbarer Wert
-max        equ  1023                ; Maximaler Sensorwert bei 10-Bit Auflösung
-range      equ  maxTemp-minTemp     ; Wertebereich des Anzeigewerts    
+  ; Defines
 
 ; RAM: Variable data section
 .data: SECTION
-value:       DS.W 1                 ; Measurement value
-tempStr:     DS.B 7                  
+value:       DS.W 1                ; Measurement value
 
- Org $100f
-
-temperature: DS.B 6                 
-;xRegisterVar DS.B 7
-;yRegisterVar DS.B 6
 ; ROM: Constant data
 .const:SECTION                     
 
 ; ROM: Interrupt vector entries
+.vect: SECTION
+        ORG $FFD2
+int22:  DC.W isrATD0               ; Interruptvector for interrupt 22 (ATD0)
 
 ; ROM: Code section
 .init: SECTION
 
-
-
-;**************************************************************
-; Public interface function: Wandelt den Zahlenwert in einen String
+ ;**************************************************************
+; Public interface function: initThermo ... Initialisiert mit den Parametern
 ; Parameter: -
-; Return:    String in Variable 'temperature'
+; Return:    -
 ; Registers: -
 
-calcTemp:   
-            PSHX
-            PSHY
-            PSHD
-            
-              
-            LDD  value
-            LDY  #range               ; Temperatur °C berechnen
-            EMUL                      ; x*100
-            LDX  #max                   
-            EDIV                      ; (x*100)/1023
-            TFR  Y, D
-            ADDD #minTemp             ; ((x*100)/1023)-30
-            LDX #tempStr
-            ;PULY in variable adresse vin y register schreiben
-            ;LDY $1008
-            ;puly
-           
-            STY temperature
-            LDY #temperature
+initADC:
+            MOVB #%11000010, ATD0CTL2     ; Enable ATD0, enable interrupt
+            MOVB #%00100000, ATD0CTL3     ; Sequence: 4 measurements
+            MOVB #%00000101, ATD0CTL4     ; 10bit, 2MHz ATD0 clock
 
-            JSR decToASCII
-
-  IFGT SELECT12HOURS      
-            MOVB #$6D, 1, Y+      ;m
-            MOVB #$20, 1, Y+
-            MOVB #$20, 1, Y+
-
-            LDAB 4, X
-            CMPB #$30
-            BEQ  istNull
-           ; MOVB 0, X, 1, Y+
-            MOVB 4, X, 1, Y+
-            BRA  next
-   istNull: MOVB #$20, 1, Y+
-            MOVB 0, X, 1, Y+ 
-      next: MOVB 5, X, 1, Y+
-            MOVB #248, 1, Y+                ; ASCII '°' in String schreiben
-            MOVB #67, 1, Y+                 ; ASCII 'C' in String schreiben
-            MOVB #0, 1, Y+                  ; Nullterminieren
-
-
-            
-            PULD
-            PULY
-
-            PULX
+            MOVB #%10000111, ATD0CTL5     ; Start first measurement on single channel 7
             RTS
-  ; jz ohne m:
-  else
-       ENDIF
+;**************************************************************
+; Public interface function: ändern der Temperatur
+; Parameter: -
+; Return:    -
+; Registers: -
+convertADC:  
+            BSET ATD0CTL2, #$01
+            MOVB #%10000111, ATD0CTL5
+            RTS
+            
+            
+
+
+;********************************************************************
+; Internal function: isrATD0 ... Interrupt service routine, von ATD0 aufgerufen
+; Parameter: -
+; Return:    Liest den ATD0 aus und speichert den Wert in die Variable value
+; Error checks:
+;   Unterschied zwischen Simulation und Monitoring
+isrATD0:  
+            LDD  ATD0DR0                  ; Read the result registers,
+            ADDD ATD0DR1                  ; ... compute average of 4 measurements
+            ADDD ATD0DR2
+            ADDD ATD0DR3
+  IFDEF SIMULATOR
+            LDD  value
+            ADDD #30
+            CPD  #1024
+            BLS  finish
+            LDD  #0
+    finish:         
+  ELSE
+  ENDIF
+            STD  value                    ; ... and store the result
+            RTI                           ; Return from interrupt service routine
+

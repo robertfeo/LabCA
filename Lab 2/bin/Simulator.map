@@ -21,6 +21,7 @@ decToASCII.asm.o                        Model: SMALL,         Lang: Assembler
 led.asm.o                               Model: SMALL,         Lang: Assembler
 clock.asm.o                             Model: SMALL,         Lang: Assembler
 thermometer.asm.o                       Model: SMALL,         Lang: Assembler
+adc.asm.o                               Model: SMALL,         Lang: Assembler
 
 *********************************************************************************************
 STARTUP SECTION
@@ -30,9 +31,9 @@ _startupData is allocated at 0xC237 and uses 11 Bytes
 extern struct _tagStartup {
   unsigned flags          0
   _PFunc   main           0xC29B    (main)
-  long     stackOffset    0x1236
+  long     stackOffset    0x1238
   unsigned nofZeroOut     2
-  _Range   pZeroOut       0x1000     311
+  _Range   pZeroOut       0x1000     313
                           0x100F     6
   _Copy    *toCopyDownBeg 0xC34F
 } _startupData;
@@ -46,7 +47,7 @@ Section Name                    Size  Type     From       To       Segment
 .rodata1                          55     R     0xC24A     0xC280   ROM_C000
 .text                            197     R     0xC281     0xC345   ROM_C000
 .copy                            265     R     0xC34F     0xC457   ROM_C000
-.data                            301   R/W     0x1000     0x112C   RAM
+.data                            303   R/W     0x1000     0x112E   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
 .abs_section_a                     1   N/I        0xA        0xA   .absSeg2
@@ -574,16 +575,16 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg524
 ticker.asm__ORG00001               2     R     0xFFE6     0xFFE7   .absSeg525
 thermometer.asm__ORG00001          6   R/W     0x100F     0x1014   .absSeg526
-thermometer.asm__ORG00002          2     R     0xFFD2     0xFFD3   .absSeg527
-.bss                               2   R/W     0x112D     0x112E   RAM
-.common                            8   R/W     0x112F     0x1136   RAM
+adc.asm__ORG00001                  2     R     0xFFD2     0xFFD3   .absSeg527
+.bss                               2   R/W     0x112F     0x1130   RAM
+.common                            8   R/W     0x1131     0x1138   RAM
 .const                             9     R     0xC346     0xC34E   ROM_C000
-.stack                           256   R/W     0x1137     0x1236   RAM
+.stack                           256   R/W     0x1139     0x1238   RAM
 .vectSeg528_vect                   2     R     0xFFFE     0xFFFF   .vectSeg528
 
 Summary of section sizes per section type:
 READ_ONLY (R):         45E (dec:     1118)
-READ_WRITE (R/W):      23D (dec:      573)
+READ_WRITE (R/W):      23F (dec:      575)
 NO_INIT (N/I):         24E (dec:      590)
 
 *********************************************************************************************
@@ -1134,12 +1135,12 @@ MODULE:                 -- main.c.o --
      STRING.Initialisation....2                C254      12      18       1   .rodata1    
      STRING...IT.SS22.3                        C266       A      10       1   .rodata1    
      STRING.Fesko.und.Moritz.4                 C270      11      17       1   .rodata1    
-     clockEvent                                112D       1       1       3   .bss        
-     counter                                   112E       1       1       3   .bss        
-     btn2                                      112F       2       2       1   .common     
-     btn3                                      1131       2       2       1   .common     
-     btn4                                      1133       2       2       1   .common     
-     btn5                                      1135       2       2       1   .common     
+     clockEvent                                112F       1       1       3   .bss        
+     counter                                   1130       1       1       3   .bss        
+     btn2                                      1131       2       2       1   .common     
+     btn3                                      1133       2       2       1   .common     
+     btn4                                      1135       2       2       1   .common     
+     btn5                                      1137       2       2       1   .common     
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
      Init                                      C000      29      41       1   .init       
@@ -1147,7 +1148,7 @@ MODULE:                 -- Start12.c.o --
 - VARIABLES:
      _startupData                              C237       B      11       5   .startData  
 - LABELS:
-     __SEG_END_SSTACK                          1237       0       0       1               
+     __SEG_END_SSTACK                          1239       0       0       1               
 MODULE:                 -- ticker.asm.o --
 - PROCEDURES:
      initTicker                                C039      1C      28       1   .init       
@@ -1233,17 +1234,21 @@ MODULE:                 -- clock.asm.o --
      setMode                                   1020       1       1       4   .data       
 MODULE:                 -- thermometer.asm.o --
 - PROCEDURES:
-     initThermo                                C1AC      15      21       1   .init       
-     isrATD0                                   C1C1      16      22       1   .init       
-     finish                                    C1D7       4       4       0   .init       
-     updateTemp                                C1DB       9       9       1   .init       
-     calcTemp                                  C1E4      37      55       1   .init       
-     istNull                                   C21B       8       8       0   .init       
-     next                                      C223      14      20       0   .init       
+     calcTemp                                  C1AC      37      55       1   .init       
+     istNull                                   C1E3       8       8       0   .init       
+     next                                      C1EB      14      20       0   .init       
 - VARIABLES:
-     value                                     1124       2       2       3   .data       
+     value                                     1124       2       2       1   .data       
      tempStr                                   1126       7       7       1   .data       
      temperature                               100F       6       6       0   .text       
+MODULE:                 -- adc.asm.o --
+- PROCEDURES:
+     initADC                                   C1FF      15      21       1   .init       
+     convertADC                                C214       9       9       1   .init       
+     isrATD0                                   C21D      16      22       1   .init       
+     finish                                    C233       4       4       0   .init       
+- VARIABLES:
+     value                                     112D       2       2       2   .data       
      int22                                     FFD2       2       2       0   .text       
 
 *********************************************************************************************
@@ -1258,7 +1263,8 @@ MODULE STATISTIC
   decToASCII.asm.o                             0     85      0
   led.asm.o                                    0     42      0
   clock.asm.o                                289      0      0
-  thermometer.asm.o                           15    139      2
+  thermometer.asm.o                           15     83      0
+  adc.asm.o                                    2     56      2
   other                                      256     21    265
 
 *********************************************************************************************
@@ -1270,14 +1276,14 @@ SECTION: ".data"
   ticks VAR00001 temp1 hrs mins secs time tempStr setMode initClock tickClock 
   secsOFL minsOFL finish secsAdd secsOF secsFinish minsAdd minsOF minsFinish 
   hrsAdd hrsOF hrsFinish timeToString midnight hrsStr P M null nulltrue 
-  nullfalse toggleMode value tempStr 
+  nullfalse toggleMode value tempStr value 
 SECTION: ".bss"
   clockEvent counter 
 SECTION: ".init"
   Init _Startup initTicker isrECT4 notYet initLCD inext1 inext2 writeLine 
   writeLine1 wDo next pad wEnd delay_10ms delay_5ms delay_50us del1 sel_data 
   sel_inst outputByte decToASCII negativeValue divide initLED setLED getLED 
-  toggleLED initThermo isrATD0 finish updateTemp calcTemp istNull next 
+  toggleLED calcTemp istNull next initADC convertADC isrATD0 finish 
 SECTION: ".rodata1"
   STRING...IT.SS22.1 STRING.Initialisation....2 STRING...IT.SS22.3 
   STRING.Fesko.und.Moritz.4 
@@ -2899,14 +2905,15 @@ OBJECT LIST SORTED BY ADDRESS
      nulltrue                                  110B       4       4       0   .data       
      nullfalse                                 110F       5       5       0   .data       
      toggleMode                                1114      10      16       1   .data       
-     value                                     1124       2       2       3   .data       
+     value                                     1124       2       2       1   .data       
      tempStr                                   1126       7       7       1   .data       
-     clockEvent                                112D       1       1       3   .bss        
-     counter                                   112E       1       1       3   .bss        
-     btn2                                      112F       2       2       1   .common     
-     btn3                                      1131       2       2       1   .common     
-     btn4                                      1133       2       2       1   .common     
-     btn5                                      1135       2       2       1   .common     
+     value                                     112D       2       2       2   .data       
+     clockEvent                                112F       1       1       3   .bss        
+     counter                                   1130       1       1       3   .bss        
+     btn2                                      1131       2       2       1   .common     
+     btn3                                      1133       2       2       1   .common     
+     btn4                                      1135       2       2       1   .common     
+     btn5                                      1137       2       2       1   .common     
      Init                                      C000      29      41       1   .init       
      _Startup                                  C029      10      16       0   .init       
      initTicker                                C039      1C      28       1   .init       
@@ -2935,13 +2942,13 @@ OBJECT LIST SORTED BY ADDRESS
      setLED                                    C19F       3       3       0   .init       
      getLED                                    C1A2       3       3       0   .init       
      toggleLED                                 C1A5       7       7       1   .init       
-     initThermo                                C1AC      15      21       1   .init       
-     isrATD0                                   C1C1      16      22       1   .init       
-     finish                                    C1D7       4       4       0   .init       
-     updateTemp                                C1DB       9       9       1   .init       
-     calcTemp                                  C1E4      37      55       1   .init       
-     istNull                                   C21B       8       8       0   .init       
-     next                                      C223      14      20       0   .init       
+     calcTemp                                  C1AC      37      55       1   .init       
+     istNull                                   C1E3       8       8       0   .init       
+     next                                      C1EB      14      20       0   .init       
+     initADC                                   C1FF      15      21       1   .init       
+     convertADC                                C214       9       9       1   .init       
+     isrATD0                                   C21D      16      22       1   .init       
+     finish                                    C233       4       4       0   .init       
      STRING...IT.SS22.1                        C24A       A      10       1   .rodata1    
      STRING.Initialisation....2                C254      12      18       1   .rodata1    
      STRING...IT.SS22.3                        C266       A      10       1   .rodata1    
@@ -2989,7 +2996,7 @@ Name of initialized Object : .data:30
  10FF180870 3AF6100416 C12D1610FF
  1808703AF6 100516C12D 1610FFF610
  03C10C2C06 1808706120 0418087070
- 1808706D18 0870201808 702016C1E4
+ 1808706D18 0870201808 702016C1AC
  31B765C601 16C0C83A31 303DE604C1
  302706180A 0470200418 087020180A
  05703D37F6 1020C8017B 1020C68016
@@ -3028,16 +3035,16 @@ wDo                       USES outputByte sel_data
 next                      USES outputByte 
 pad                       USES outputByte 
 outputByte                USES delay_50us 
+calcTemp                  USES value tempStr decToASCII 
 isrATD0                   USES value 
 finish                    USES value 
-calcTemp                  USES value tempStr decToASCII 
 WriteLine_Wrapper         USES writeLine 
 initLED_C                 USES _DDRJ _PTIJ _DDRAB _PORTAB 
-main                      USES initLED_C initLCD initTicker initClock 
-                                initThermo _DDRH STRING...IT.SS22.1 WriteLine_Wrapper 
+main                      USES initLED_C initLCD initTicker initClock initADC 
+                                _DDRH STRING...IT.SS22.1 WriteLine_Wrapper 
                                 STRING.Initialisation....2 clockEvent _PTH btn2 toggleMode setMode btn3 
                                 secsAdd btn4 minsAdd btn5 hrsAdd timeToString _PORTAB 
-                                tickClock updateTemp counter STRING...IT.SS22.3 
+                                tickClock convertADC counter STRING...IT.SS22.3 
                                 STRING.Fesko.und.Moritz.4 main _TCNT 
 
 *********************************************************************************************
@@ -3059,7 +3066,7 @@ DEPENDENCY TREE
  |  |    
  |  +- initClock           
  |  |    
- |  +- initThermo          
+ |  +- initADC             
  |  |    
  |  +- WriteLine_Wrapper   
  |  |  | 
@@ -3083,12 +3090,20 @@ DEPENDENCY TREE
  |  |  | 
  |  |  +- secsAdd              (see above)
  |  |     
- |  +- updateTemp          
+ |  +- convertADC          
  |       
  +- _Startup            
     | 
     +- _startupData        
     |  | 
+    |  +- finish              
+    |  |    
+    |  +- isrATD0             
+    |  |    
+    |  +- convertADC           (see above)
+    |  |  
+    |  +- initADC              (see above)
+    |  |  
     |  +- next                
     |  |    
     |  +- istNull             
@@ -3097,14 +3112,6 @@ DEPENDENCY TREE
     |  |  | 
     |  |  +- decToASCII          
     |  |       
-    |  +- updateTemp           (see above)
-    |  |  
-    |  +- finish              
-    |  |    
-    |  +- isrATD0             
-    |  |    
-    |  +- initThermo           (see above)
-    |  |  
     |  +- toggleLED            (see above)
     |  |  
     |  +- getLED              
@@ -3185,7 +3192,7 @@ DEPENDENCY TREE
  | 
  +- isrECT4              (see above)
     
- _ORG00002           
+ _ORG00001           
  | 
  +- isrATD0              (see above)
     
