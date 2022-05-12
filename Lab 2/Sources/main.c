@@ -101,15 +101,15 @@ void main(void)
 {   
     EnableInterrupts;                           // Global interrupt enable
 
-    WriteLine_Wrapper("@ IT SS22", 0);
-    WriteLine_Wrapper("Initialisation...", 1);    
-
     initLED_C();                    		        // Initialize the LEDs
     initLCD();                    	  	        // Initialize the LCD
     initTicker();                               // Initialize the time ticker
     initClock();
     initThermo();
     DDRH = 0x00;                                // Port H as inputs
+    
+    WriteLine_Wrapper("@ IT SS22", 0);
+    WriteLine_Wrapper("Initialisation...", 1);
 
     for(;;)                                     // Endless loop
     {
@@ -117,47 +117,47 @@ void main(void)
         {
             if(PTH == 0x04)                   // Button 2 betätigt
             {        
-              btn2 = DEBOUNCE_TIME + TCNT;
-              toggleMode();
+                btn2 = DEBOUNCE_TIME + TCNT;
+                toggleMode();
             }
                         
             if(setMode)
             {
-              if(PTH == 0x08)                 // Button 3 betätigt
-              {                
-                 btn3 = DEBOUNCE_TIME + TCNT;
-                 secsAdd();
-                 timeToString();
-              } else if(PTH == 0x10)          // Button 4 betätigt
-              {         
-                 btn4 = DEBOUNCE_TIME + TCNT;
-                 minsAdd();
-                 timeToString();
-              } else if(PTH == 0x20)          // Button 5 betätigt
-              {         
-                 btn5 = DEBOUNCE_TIME + TCNT;
-                 hrsAdd();
-                 timeToString();
-              }
-              PORTB = 0x80;              
+                if(PTH == 0x08)                 // Button 3 betätigt
+                {                
+                   btn3 = DEBOUNCE_TIME + TCNT;
+                   secsAdd();
+                   timeToString();
+                } else if(PTH == 0x10)          // Button 4 betätigt
+                {         
+                   btn4 = DEBOUNCE_TIME + TCNT;
+                   minsAdd();
+                   timeToString();
+                } else if(PTH == 0x20)          // Button 5 betätigt
+                {         
+                   btn5 = DEBOUNCE_TIME + TCNT;
+                   hrsAdd();
+                   timeToString();
+                }
+                PORTB = 0x80;              
             }
             
             clockEvent = 0;
             
             if(!setMode)
             {
-          	  tickClock();
-        	  }
-
-        	  updateTemp();
-        	  counter++; 
-        	  if(counter >= 20)
-        	  {
-          	   counter=0; 
-          	   WriteLine_Wrapper("@ IT SS22", 0);
-        	  } else if (counter >= 10)
-        	  {
-        	     WriteLine_Wrapper("Fesko und Moritz", 0);
+            	  tickClock();
+            	  
+            	  updateTemp();
+            	  counter++; 
+            	  if(counter >= 20)
+            	  {
+              	   counter=0; 
+              	   WriteLine_Wrapper("@ IT SS22", 0);
+            	  } else if (counter >= 10)
+            	  {
+            	     WriteLine_Wrapper("Fesko und Moritz", 0);
+            	  }
         	  }
         } 
     }     

@@ -34,7 +34,7 @@ extern struct _tagStartup {
   unsigned nofZeroOut     2
   _Range   pZeroOut       0x1000     281
                           0x100F     6
-  _Copy    *toCopyDownBeg 0xC352
+  _Copy    *toCopyDownBeg 0xC34F
 } _startupData;
 
 *********************************************************************************************
@@ -44,8 +44,8 @@ Section Name                    Size  Type     From       To       Segment
 .init                            567     R     0xC000     0xC236   ROM_C000
 .startData                        19     R     0xC237     0xC249   ROM_C000
 .rodata1                          55     R     0xC24A     0xC280   ROM_C000
-.text                            200     R     0xC281     0xC348   ROM_C000
-.copy                            235     R     0xC352     0xC43C   ROM_C000
+.text                            197     R     0xC281     0xC345   ROM_C000
+.copy                            235     R     0xC34F     0xC439   ROM_C000
 .data                            271   R/W     0x1000     0x110E   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -577,12 +577,12 @@ thermometer.asm__ORG00001          6   R/W     0x100F     0x1014   .absSeg526
 thermometer.asm__ORG00002          2     R     0xFFD2     0xFFD3   .absSeg527
 .bss                               2   R/W     0x110F     0x1110   RAM
 .common                            8   R/W     0x1111     0x1118   RAM
-.const                             9     R     0xC349     0xC351   ROM_C000
+.const                             9     R     0xC346     0xC34E   ROM_C000
 .stack                           256   R/W     0x1119     0x1218   RAM
 .vectSeg528_vect                   2     R     0xFFFE     0xFFFF   .vectSeg528
 
 Summary of section sizes per section type:
-READ_ONLY (R):         443 (dec:     1091)
+READ_ONLY (R):         440 (dec:     1088)
 READ_WRITE (R/W):      21F (dec:      543)
 NO_INIT (N/I):         24E (dec:      590)
 
@@ -1128,7 +1128,7 @@ MODULE:                 -- main.c.o --
 - PROCEDURES:
      WriteLine_Wrapper                         C281       A      10       2   .text       
      initLED_C                                 C28B      10      16       1   .text       
-     main                                      C29B      AE     174       1   .text       
+     main                                      C29B      AB     171       1   .text       
 - VARIABLES:
      STRING...IT.SS22.1                        C24A       A      10       1   .rodata1    
      STRING.Initialisation....2                C254      12      18       1   .rodata1    
@@ -1177,15 +1177,15 @@ MODULE:                 -- lcd.asm.o --
 - VARIABLES:
      VAR00001                                  1001       1       1       2   .data       
      temp1                                     1002       1       1       0   .data       
-     VAR00002                                  C349       1       1       1   .const      
-     VAR00003                                  C34A       1       1       0   .const      
-     VAR00004                                  C34B       1       1       0   .const      
-     VAR00005                                  C34C       1       1       0   .const      
-     VAR00006                                  C34D       1       1       1   .const      
-     VAR00007                                  C34E       1       1       0   .const      
-     VAR00008                                  C34F       1       1       0   .const      
-     VAR00009                                  C350       1       1       0   .const      
-     VAR00010                                  C351       1       1       0   .const      
+     VAR00002                                  C346       1       1       1   .const      
+     VAR00003                                  C347       1       1       0   .const      
+     VAR00004                                  C348       1       1       0   .const      
+     VAR00005                                  C349       1       1       0   .const      
+     VAR00006                                  C34A       1       1       1   .const      
+     VAR00007                                  C34B       1       1       0   .const      
+     VAR00008                                  C34C       1       1       0   .const      
+     VAR00009                                  C34D       1       1       0   .const      
+     VAR00010                                  C34E       1       1       0   .const      
 MODULE:                 -- decToASCII.asm.o --
 - PROCEDURES:
      decToASCII                                C12D       E      14       4   .init       
@@ -1247,7 +1247,7 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dp256.c.o                            590      0      0
-  main.c.o                                    10    200     55
+  main.c.o                                    10    197     55
   Start12.c.o                                  0     57      0
   ticker.asm.o                                 1     65      2
   lcd.asm.o                                    2    179      9
@@ -2940,16 +2940,16 @@ OBJECT LIST SORTED BY ADDRESS
      STRING.Fesko.und.Moritz.4                 C270      11      17       1   .rodata1    
      WriteLine_Wrapper                         C281       A      10       2   .text       
      initLED_C                                 C28B      10      16       1   .text       
-     main                                      C29B      AE     174       1   .text       
-     VAR00002                                  C349       1       1       1   .const      
-     VAR00003                                  C34A       1       1       0   .const      
-     VAR00004                                  C34B       1       1       0   .const      
-     VAR00005                                  C34C       1       1       0   .const      
-     VAR00006                                  C34D       1       1       1   .const      
-     VAR00007                                  C34E       1       1       0   .const      
-     VAR00008                                  C34F       1       1       0   .const      
-     VAR00009                                  C350       1       1       0   .const      
-     VAR00010                                  C351       1       1       0   .const      
+     main                                      C29B      AB     171       1   .text       
+     VAR00002                                  C346       1       1       1   .const      
+     VAR00003                                  C347       1       1       0   .const      
+     VAR00004                                  C348       1       1       0   .const      
+     VAR00005                                  C349       1       1       0   .const      
+     VAR00006                                  C34A       1       1       1   .const      
+     VAR00007                                  C34B       1       1       0   .const      
+     VAR00008                                  C34C       1       1       0   .const      
+     VAR00009                                  C34D       1       1       0   .const      
+     VAR00010                                  C34E       1       1       0   .const      
      int22                                     FFD2       2       2       0   .text       
      int12                                     FFE6       2       2       0   .text       
 
@@ -2966,10 +2966,10 @@ main.c.o:
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC352 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC34F ---- SIZE       4 ---
 Filling bytes inserted
  00E51021
-------- ROM-ADDRESS: 0xC356 ---- RAM-ADDRESS: 0x1021 ---- SIZE     229 ---
+------- ROM-ADDRESS: 0xC353 ---- RAM-ADDRESS: 0x1021 ---- SIZE     229 ---
 Name of initialized Object : .data:30
  180B0B1003 180B3B1004 180B1E1005
  3D36B61005 813B240516 105B2018B6
@@ -2987,7 +2987,7 @@ Name of initialized Object : .data:30
  302706180A 0470200418 087020180A
  05703D37F6 1020C8017B 1020C68016
  C1A5333D
-------- ROM-ADDRESS: 0xC43B ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC438 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3025,12 +3025,12 @@ finish                    USES value
 calcTemp                  USES value tempStr decToASCII 
 WriteLine_Wrapper         USES writeLine 
 initLED_C                 USES _DDRJ _PTIJ _DDRAB _PORTAB 
-main                      USES STRING...IT.SS22.1 main 
-                                STRING.Initialisation....2 WriteLine_Wrapper initLED_C initLCD initTicker 
-                                initClock initThermo _DDRH clockEvent _PTH btn2 
-                                toggleMode setMode btn3 secsAdd btn4 minsAdd btn5 hrsAdd 
-                                timeToString _PORTAB tickClock updateTemp counter 
-                                STRING...IT.SS22.3 STRING.Fesko.und.Moritz.4 _TCNT 
+main                      USES initLED_C initLCD initTicker initClock 
+                                initThermo _DDRH STRING...IT.SS22.1 WriteLine_Wrapper 
+                                STRING.Initialisation....2 clockEvent _PTH btn2 toggleMode setMode btn3 
+                                secsAdd btn4 minsAdd btn5 hrsAdd timeToString _PORTAB 
+                                tickClock updateTemp counter STRING...IT.SS22.3 
+                                STRING.Fesko.und.Moritz.4 main _TCNT 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -3039,26 +3039,26 @@ DEPENDENCY TREE
  | 
  +- main                
  |  | 
- |  +- WriteLine_Wrapper   
- |  |  | 
- |  |  +- writeLine           
- |  |     | 
- |  |     +- sel_inst            
- |  |          
  |  +- initLED_C           
  |  |    
  |  +- initLCD             
  |  |  | 
  |  |  +- delay_10ms          
  |  |  |    
- |  |  +- sel_inst             (see above)
- |  |     
+ |  |  +- sel_inst            
+ |  |       
  |  +- initTicker          
  |  |    
  |  +- initClock           
  |  |    
  |  +- initThermo          
  |  |    
+ |  +- WriteLine_Wrapper   
+ |  |  | 
+ |  |  +- writeLine           
+ |  |     | 
+ |  |     +- sel_inst             (see above)
+ |  |        
  |  +- toggleMode          
  |  |  | 
  |  |  +- toggleLED           
@@ -3195,6 +3195,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 8
-Total size of all blocks to be downloaded: 1091
+Number of blocks to be downloaded: 9
+Total size of all blocks to be downloaded: 1088
 
