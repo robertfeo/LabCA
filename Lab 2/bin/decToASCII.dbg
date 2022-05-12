@@ -11,10 +11,10 @@
 .init:  SECTION
 
 ;**************************************************************
-; Public interface function: decToASCII ... Converts a 16-Bit value into an equal dec-string
-; Parameter: X ... pointer to string
-;            D ... holds the value
-; Return:    String value in RAM-Memory (on X-Reg adress)
+; Public interface function: decToASCII ... konvertiert 16 bit Wert in dec string
+; Parameter: X ... pointer auf string
+;            D ... speichert value
+; Return:    String value in RAM-Memory (x zeigt drauf)
 ; Registers: Unchanged
 decToASCII:        
     PSHX                        ; secure Registers

@@ -12986,11 +12986,11 @@ inext2:   ldaa 0,x          ; get command
           rts
 
 ;**************************************************************
-; Public interface function: writeLine ... Write zero-terminated string to LCD
-; Parameter: X ... pointer to string
-;            B ... row number (0 or 1)
+; Public interface function: writeLine ... schreibe zero-terminated string in LCD
+; Parameter: X ... pointer auf string
+;            B ... Zeile(0 or 1)
 ; Return:    -
-; Bugs:      Fixed bugs/missing features marked with **
+; Bugs:      Fixed bugs/missing features markiert mit **
 writeLine:
           pshd
           pshx
