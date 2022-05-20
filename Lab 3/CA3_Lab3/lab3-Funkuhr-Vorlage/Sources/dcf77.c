@@ -40,10 +40,7 @@ char readPortSim(void);                         // Use instead of readPort() for
 // Returns:     -
 void initializePort(void)
 {
-// --- Add your code here ----------------------------------------------------
-// --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? ---
     DDRH = 0; 
-
 }
 
 // ****************************************************************************
@@ -52,9 +49,7 @@ void initializePort(void)
 // Returns:     0 if signal is Low, >0 if signal is High
 char readPort(void)
 {
-// --- Add your code here ----------------------------------------------------
-// --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? --- ??? ---
-    if((PTH&1) == 0){
+   if((PTH&1) == 0){
         return 0;  
     } else{
         return 1;  

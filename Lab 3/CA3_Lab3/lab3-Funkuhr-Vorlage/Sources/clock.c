@@ -20,14 +20,15 @@
 
 // Global variable holding the last clock event
 CLOCKEVENT clockEvent = NOCLOCKEVENT;
+static int uptime = 0;
+
 
 // Modul internal global variables
 static char TimeZoneActive = 0;
-static char hrs = 0, mins = 0, secs = 0;
+static char hrs = 23, mins = 58, secs = 57;
 static int  year=2017, month=1, weekday=7, day=1;
-
-static int uptime = 0;
 static int ticks = 0;
+
 // Modul internal global constants
 const char days[8][4] = { "Err", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun" };
 const char timeZone[2][3] = { "DE", "US" };
@@ -95,6 +96,16 @@ void processEventsClock(CLOCKEVENT event)
         }
      }
 }
+// ****************************************************************************
+// Allow other modules, e.g. DCF77, so set the date
+// Parameters:  year, month, weekday, day as integers
+// Returns:     -
+void setDate(int years, int months, int weekdays, int days)
+{   year = years;
+    month = months;
+    day = days;
+    weekday = weekdays;
+}
 
 // ****************************************************************************
 // Allow other modules, e.g. DCF77, so set the time
@@ -113,7 +124,16 @@ void setClock(char hours, char minutes, char seconds)
 // Returns:     -
 void displayTimeClock(void)
 {   char uhrzeit[32] = "00:00:00";
-    (void) sprintf(uhrzeit, "%02d:%02d:%02d", hrs, mins, secs );
+    char tempH = hrs;
+    if(TimeZoneActive){
+      if(hrs<6){          
+        tempH=24-hrs-6;
+      } else{
+        tempH=hrs-6;
+      }
+    }
+
+    (void) sprintf(uhrzeit, "%s: %02d:%02d:%02d", timeZone[TimeZoneActive], tempH, mins, secs );
     writeLine(uhrzeit, 0);
 }
 
@@ -123,16 +143,6 @@ void displayTimeClock(void)
 // Returns:     CPU time base in milliseconds
 int time(void)
 {   return uptime;
-}
-// ****************************************************************************
-// set the date
-// Parameters:  year, month, weekday, day as integers
-// Returns:     -
-void setDate(int years, int months, int weekdays, int days)
-{   year = years;
-    month = months;
-    day = days;
-    weekday = weekdays;
 }
 
 // ****************************************************************************
