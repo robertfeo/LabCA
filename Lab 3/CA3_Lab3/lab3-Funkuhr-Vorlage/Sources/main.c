@@ -19,6 +19,11 @@
 
 #pragma LINK_INFO DERIVATIVE "mc9s12dp256b"
 
+static int btn3 = 0;
+static byte StateBtn = 0;
+//int uptime = 0;
+
+
 // ****************************************************************************
 void main(void)
 {   EnableInterrupts;                           // Allow interrupts
@@ -39,12 +44,20 @@ void main(void)
         }
 
         if (dcf77Event != NODCF77EVENT)         // Process DCF77 events
-        {   processEventsDCF77(dcf77Event);
+        {  // processEventsDCF77(dcf77Event);
 
-            displayDateDcf77();
+           // displayDateDcf77();
+                displayDate();
 
             dcf77Event = NODCF77EVENT;          // Reset dcf77 event
         }
+        if(PTH ==0x04)
+         //if((PTH == 0x04 && ((uptime - btn3) > 0))  && (StateBtn!= (PTH & 8)))                     // Button 2
+            {        
+            toggleTimeZone();
+          //  btn3=uptime+100;
+            }
+           // StateBtn = PTH & 8;
     }
 }
 

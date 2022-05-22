@@ -20,14 +20,14 @@
 
 // Global variable holding the last clock event
 CLOCKEVENT clockEvent = NOCLOCKEVENT;
-static int uptime = 0;
 
 
 // Modul internal global variables
 static char TimeZoneActive = 0;
 static char hrs = 23, mins = 58, secs = 57;
-static int  year=2017, month=1, weekday=7, day=1;
+static int  year=2017, month=1, weekday=3, day=1;
 static int ticks = 0;
+static int uptime = 0;
 
 // Modul internal global constants
 const char days[8][4] = { "Err", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun" };
@@ -95,6 +95,7 @@ void processEventsClock(CLOCKEVENT event)
             }
         }
      }
+     //globale variable setzen displayEvent
 }
 // ****************************************************************************
 // Allow other modules, e.g. DCF77, so set the date

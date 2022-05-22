@@ -30,11 +30,11 @@ Entry point: 0xC029 (_Startup)
 _startupData is allocated at 0xC15B and uses 11 Bytes
 extern struct _tagStartup {
   unsigned flags          0
-  _PFunc   main           0xC206    (main)
+  _PFunc   main           0xC229    (main)
   long     stackOffset    0x111D
   unsigned nofZeroOut     1
   _Range   pZeroOut       0x1000     30
-  _Copy    *toCopyDownBeg 0xC88B
+  _Copy    *toCopyDownBeg 0xC8CC
 } _startupData;
 
 *********************************************************************************************
@@ -43,11 +43,11 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                            347     R     0xC000     0xC15A   ROM_C000
 .startData                        15     R     0xC15B     0xC169   ROM_C000
-.rodata                          122     R     0xC16A     0xC1E3   ROM_C000
-.rodata1                          34     R     0xC1E4     0xC205   ROM_C000
-.text                           1565     R     0xC206     0xC822   ROM_C000
-.copy                             15     R     0xC88B     0xC899   ROM_C000
-.data                             11   R/W     0x1000     0x100A   RAM
+.rodata                          154     R     0xC16A     0xC203   ROM_C000
+.rodata1                          37     R     0xC204     0xC228   ROM_C000
+.text                           1595     R     0xC229     0xC863   ROM_C000
+.copy                             17     R     0xC8CC     0xC8DC   ROM_C000
+.data                             13   R/W     0x1000     0x100C   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
 .abs_section_a                     1   N/I        0xA        0xA   .absSeg2
@@ -574,14 +574,14 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_2ae                   2   N/I      0x2AE      0x2AF   .absSeg523
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg524
 ticker.asm__ORG00001               2     R     0xFFE6     0xFFE7   .absSeg525
-.bss                              19   R/W     0x100B     0x101D   RAM
-RUNTIME                           95     R     0xC823     0xC881   ROM_C000
-.const                             9     R     0xC882     0xC88A   ROM_C000
+.bss                              17   R/W     0x100D     0x101D   RAM
+RUNTIME                           95     R     0xC864     0xC8C2   ROM_C000
+.const                             9     R     0xC8C3     0xC8CB   ROM_C000
 .stack                           256   R/W     0x101E     0x111D   RAM
 .vectSeg526_vect                   2     R     0xFFFE     0xFFFF   .vectSeg526
 
 Summary of section sizes per section type:
-READ_ONLY (R):         89E (dec:     2206)
+READ_ONLY (R):         8E1 (dec:     2273)
 READ_WRITE (R/W):      11E (dec:      286)
 NO_INIT (N/I):         24E (dec:      590)
 
@@ -985,7 +985,7 @@ MODULE:                 -- mc9s12dp256.c.o --
      _PPSP                                      25D       1       1       0   .abs_section_25d
      _PIEP                                      25E       1       1       0   .abs_section_25e
      _PIFP                                      25F       1       1       0   .abs_section_25f
-     _PTH                                       260       1       1       0   .abs_section_260
+     _PTH                                       260       1       1       1   .abs_section_260
      _PTIH                                      261       1       1       0   .abs_section_261
      _DDRH                                      262       1       1       1   .abs_section_262
      _RDRH                                      263       1       1       0   .abs_section_263
@@ -1125,7 +1125,7 @@ MODULE:                 -- mc9s12dp256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                      C206      35      53       0   .text       
+     main                                      C229      3C      60       0   .text       
 - VARIABLES:
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
@@ -1137,23 +1137,23 @@ MODULE:                 -- Start12.c.o --
      __SEG_END_SSTACK                          111E       0       0       1               
 MODULE:                 -- PRINTF.C.o (ansisi.lib) --
 - PROCEDURES:
-     vprintf                                   C23B     478    1144      49   .text       
-     _out                                      C6B3       C      12       9   .text       
-     deposit_char                              C6BF       F      15       1   .text       
-     sprintf                                   C6CE      29      41       2   .text       
+     vprintf                                   C265     478    1144      49   .text       
+     _out                                      C6DD       C      12       9   .text       
+     deposit_char                              C6E9       F      15       1   .text       
+     sprintf                                   C6F8      29      41       2   .text       
 - VARIABLES:
      pow10                                     C16A      28      40       4   .rodata     
      pow16                                     C192      20      32       4   .rodata     
      pow8                                      C1B2      2C      44       4   .rodata     
-     pbuf                                      100B       6       6      15   .bss        
+     pbuf                                      100D       6       6      15   .bss        
 MODULE:                 -- rtshc12.c.o (ansisi.lib) --
 - PROCEDURES:
-     _LCMP_P                                   C823      15      21       3   RUNTIME     
-     _LNEG                                     C838       D      13       1   RUNTIME     
-     _ILSEXT                                   C845       7       7       2   RUNTIME     
-     _CASE_DIRECT_BYTE                         C84C       5       5       1   RUNTIME     
-     _CASE_SEARCH_8                            C851      17      23       1   RUNTIME     
-     _CASE_SEARCH_8_BYTE                       C868      1A      26       1   RUNTIME     
+     _LCMP_P                                   C864      15      21       3   RUNTIME     
+     _LNEG                                     C879       D      13       1   RUNTIME     
+     _ILSEXT                                   C886       7       7       2   RUNTIME     
+     _CASE_DIRECT_BYTE                         C88D       5       5       1   RUNTIME     
+     _CASE_SEARCH_8                            C892      17      23       1   RUNTIME     
+     _CASE_SEARCH_8_BYTE                       C8A9      1A      26       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- lcd.asm.o --
 - PROCEDURES:
@@ -1176,15 +1176,15 @@ MODULE:                 -- lcd.asm.o --
 - VARIABLES:
      VAR00001                                  1000       1       1       2   .data       
      temp1                                     1001       1       1       0   .data       
-     VAR00002                                  C882       1       1       1   .const      
-     VAR00003                                  C883       1       1       0   .const      
-     VAR00004                                  C884       1       1       0   .const      
-     VAR00005                                  C885       1       1       0   .const      
-     VAR00006                                  C886       1       1       1   .const      
-     VAR00007                                  C887       1       1       0   .const      
-     VAR00008                                  C888       1       1       0   .const      
-     VAR00009                                  C889       1       1       0   .const      
-     VAR00010                                  C88A       1       1       0   .const      
+     VAR00002                                  C8C3       1       1       1   .const      
+     VAR00003                                  C8C4       1       1       0   .const      
+     VAR00004                                  C8C5       1       1       0   .const      
+     VAR00005                                  C8C6       1       1       0   .const      
+     VAR00006                                  C8C7       1       1       1   .const      
+     VAR00007                                  C8C8       1       1       0   .const      
+     VAR00008                                  C8C9       1       1       0   .const      
+     VAR00009                                  C8CA       1       1       0   .const      
+     VAR00010                                  C8CB       1       1       0   .const      
 MODULE:                 -- led.asm.o --
 - PROCEDURES:
      initLED                                   C0EC      1B      27       1   .init       
@@ -1201,72 +1201,74 @@ MODULE:                 -- ticker.asm.o --
      int12                                     FFE6       2       2       0   .text       
 MODULE:                 -- clock.c.o --
 - PROCEDURES:
-     initClock                                 C6F7       3       3       1   .text       
-     tick10ms                                  C6FA      36      54       1   .text       
-     processEventsClock                        C730      2B      43       1   .text       
-     setClock                                  C75B      15      21       1   .text       
-     displayTimeClock                          C770      6F     111       2   .text       
+     initClock                                 C721       3       3       1   .text       
+     tick10ms                                  C724      36      54       1   .text       
+     toggleTimeZone                            C75A       F      15       1   .text       
+     processEventsClock                        C769      2B      43       1   .text       
+     setClock                                  C794      15      21       1   .text       
+     displayTimeClock                          C7A9      6F     111       2   .text       
+     displayDate                               C818      32      50       2   .text       
 - VARIABLES:
-     timeZone                                  C1DE       6       6       1   .rodata     
-     STRING..s...02d..02d..02d.12              C1E4      13      19       1   .rodata1    
+     days                                      C1DE      20      32       1   .rodata     
+     timeZone                                  C1FE       6       6       1   .rodata     
+     STRING..s...02d..02d..02d.12              C204      13      19       1   .rodata1    
+     STRING..s..02d..02d..04d.13               C217      12      18       1   .rodata1    
      hrs                                       1002       1       1       6   .data       
      mins                                      1003       1       1       5   .data       
      secs                                      1004       1       1       5   .data       
-     clockEvent                                1011       2       2       3   .bss        
-     uptime                                    1013       2       2       2   .bss        
-     TimeZoneActive                            1015       1       1       1   .bss        
+     year                                      1005       2       2       1   .data       
+     month                                     1007       2       2       1   .data       
+     weekday                                   1009       2       2       1   .data       
+     day                                       100B       2       2       1   .data       
+     clockEvent                                1013       2       2       3   .bss        
+     TimeZoneActive                            1015       1       1       4   .bss        
      ticks                                     1016       2       2       4   .bss        
+     uptime                                    1018       2       2       2   .bss        
 MODULE:                 -- dcf77.c.o --
 - PROCEDURES:
-     initializePort                            C7DF       4       4       1   .text       
-     initDCF77                                 C7E3      13      19       1   .text       
-     displayDateDcf77                          C7F6      29      41       2   .text       
-     sampleSignalDCF77                         C81F       3       3       1   .text       
-     processEventsDCF77                        C822       1       1       1   .text       
+     initializePort                            C84A       4       4       1   .text       
+     initDCF77                                 C84E      13      19       1   .text       
+     sampleSignalDCF77                         C861       3       3       1   .text       
 - VARIABLES:
-     STRING..02d..02d..04d.1                   C1F7       F      15       1   .rodata1    
-     dcf77Year                                 1005       2       2       1   .data       
-     dcf77Month                                1007       2       2       1   .data       
-     dcf77Day                                  1009       2       2       1   .data       
-     dcf77Event                                1018       2       2       3   .bss        
-     dcf77Hour                                 101A       2       2       1   .bss        
-     dcf77Minute                               101C       2       2       1   .bss        
+     dcf77Event                                101A       2       2       3   .bss        
+     dHour                                     101C       1       1       1   .bss        
+     dMinute                                   101D       1       1       1   .bss        
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dp256.c.o                            590      0      0
-  main.c.o                                     0     53      0
+  main.c.o                                     0     60      0
   Start12.c.o                                  0     57      0
   PRINTF.C.o (ansisi.lib)                      6   1212    116
   rtshc12.c.o (ansisi.lib)                     0     95      0
   lcd.asm.o                                    2    179      9
   led.asm.o                                    0     43      0
   ticker.asm.o                                 0     68      2
-  clock.c.o                                   10    232     25
-  dcf77.c.o                                   12     68     15
-  other                                      256     17     15
+  clock.c.o                                   18    297     75
+  dcf77.c.o                                    4     26      0
+  other                                      256     17     17
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  main vprintf _out deposit_char sprintf initClock tick10ms processEventsClock 
-  setClock displayTimeClock initializePort initDCF77 displayDateDcf77 
-  sampleSignalDCF77 processEventsDCF77 int12 
+  main vprintf _out deposit_char sprintf initClock tick10ms toggleTimeZone 
+  processEventsClock setClock displayTimeClock displayDate initializePort 
+  initDCF77 sampleSignalDCF77 int12 
 SECTION: ".data"
-  VAR00001 temp1 hrs mins secs dcf77Year dcf77Month dcf77Day 
+  VAR00001 temp1 hrs mins secs year month weekday day 
 SECTION: ".bss"
-  pbuf clockEvent uptime TimeZoneActive ticks dcf77Event dcf77Hour dcf77Minute 
+  pbuf clockEvent TimeZoneActive ticks uptime dcf77Event dHour dMinute 
 SECTION: ".init"
   Init _Startup initLCD inext1 inext2 writeLine writeLine1 wDo next eol wEnd 
   delay_10ms delay_5ms delay_50us del1 sel_data sel_inst outputByte initLED 
   toggleLED setLED clrLED initTicker isrECT4 pllWait 
 SECTION: ".rodata"
-  pow10 pow16 pow8 timeZone 
+  pow10 pow16 pow8 days timeZone 
 SECTION: ".rodata1"
-  STRING..s...02d..02d..02d.12 STRING..02d..02d..04d.1 
+  STRING..s...02d..02d..02d.12 STRING..s..02d..02d..04d.13 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -2777,7 +2779,7 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSP                                      25D       1       1       0   .abs_section_25d
      _PIEP                                      25E       1       1       0   .abs_section_25e
      _PIFP                                      25F       1       1       0   .abs_section_25f
-     _PTH                                       260       1       1       0   .abs_section_260
+     _PTH                                       260       1       1       1   .abs_section_260
      _PTIH                                      261       1       1       0   .abs_section_261
      _DDRH                                      262       1       1       1   .abs_section_262
      _RDRH                                      263       1       1       0   .abs_section_263
@@ -2857,17 +2859,18 @@ OBJECT LIST SORTED BY ADDRESS
      hrs                                       1002       1       1       6   .data       
      mins                                      1003       1       1       5   .data       
      secs                                      1004       1       1       5   .data       
-     dcf77Year                                 1005       2       2       1   .data       
-     dcf77Month                                1007       2       2       1   .data       
-     dcf77Day                                  1009       2       2       1   .data       
-     pbuf                                      100B       6       6      15   .bss        
-     clockEvent                                1011       2       2       3   .bss        
-     uptime                                    1013       2       2       2   .bss        
-     TimeZoneActive                            1015       1       1       1   .bss        
+     year                                      1005       2       2       1   .data       
+     month                                     1007       2       2       1   .data       
+     weekday                                   1009       2       2       1   .data       
+     day                                       100B       2       2       1   .data       
+     pbuf                                      100D       6       6      15   .bss        
+     clockEvent                                1013       2       2       3   .bss        
+     TimeZoneActive                            1015       1       1       4   .bss        
      ticks                                     1016       2       2       4   .bss        
-     dcf77Event                                1018       2       2       3   .bss        
-     dcf77Hour                                 101A       2       2       1   .bss        
-     dcf77Minute                               101C       2       2       1   .bss        
+     uptime                                    1018       2       2       2   .bss        
+     dcf77Event                                101A       2       2       3   .bss        
+     dHour                                     101C       1       1       1   .bss        
+     dMinute                                   101D       1       1       1   .bss        
      Init                                      C000      29      41       1   .init       
      _Startup                                  C029      10      16       0   .init       
      initLCD                                   C039      27      39       1   .init       
@@ -2896,39 +2899,40 @@ OBJECT LIST SORTED BY ADDRESS
      pow10                                     C16A      28      40       4   .rodata     
      pow16                                     C192      20      32       4   .rodata     
      pow8                                      C1B2      2C      44       4   .rodata     
-     timeZone                                  C1DE       6       6       1   .rodata     
-     STRING..s...02d..02d..02d.12              C1E4      13      19       1   .rodata1    
-     STRING..02d..02d..04d.1                   C1F7       F      15       1   .rodata1    
-     main                                      C206      35      53       0   .text       
-     vprintf                                   C23B     478    1144      49   .text       
-     _out                                      C6B3       C      12       9   .text       
-     deposit_char                              C6BF       F      15       1   .text       
-     sprintf                                   C6CE      29      41       2   .text       
-     initClock                                 C6F7       3       3       1   .text       
-     tick10ms                                  C6FA      36      54       1   .text       
-     processEventsClock                        C730      2B      43       1   .text       
-     setClock                                  C75B      15      21       1   .text       
-     displayTimeClock                          C770      6F     111       2   .text       
-     initializePort                            C7DF       4       4       1   .text       
-     initDCF77                                 C7E3      13      19       1   .text       
-     displayDateDcf77                          C7F6      29      41       2   .text       
-     sampleSignalDCF77                         C81F       3       3       1   .text       
-     processEventsDCF77                        C822       1       1       1   .text       
-     _LCMP_P                                   C823      15      21       3   RUNTIME     
-     _LNEG                                     C838       D      13       1   RUNTIME     
-     _ILSEXT                                   C845       7       7       2   RUNTIME     
-     _CASE_DIRECT_BYTE                         C84C       5       5       1   RUNTIME     
-     _CASE_SEARCH_8                            C851      17      23       1   RUNTIME     
-     _CASE_SEARCH_8_BYTE                       C868      1A      26       1   RUNTIME     
-     VAR00002                                  C882       1       1       1   .const      
-     VAR00003                                  C883       1       1       0   .const      
-     VAR00004                                  C884       1       1       0   .const      
-     VAR00005                                  C885       1       1       0   .const      
-     VAR00006                                  C886       1       1       1   .const      
-     VAR00007                                  C887       1       1       0   .const      
-     VAR00008                                  C888       1       1       0   .const      
-     VAR00009                                  C889       1       1       0   .const      
-     VAR00010                                  C88A       1       1       0   .const      
+     days                                      C1DE      20      32       1   .rodata     
+     timeZone                                  C1FE       6       6       1   .rodata     
+     STRING..s...02d..02d..02d.12              C204      13      19       1   .rodata1    
+     STRING..s..02d..02d..04d.13               C217      12      18       1   .rodata1    
+     main                                      C229      3C      60       0   .text       
+     vprintf                                   C265     478    1144      49   .text       
+     _out                                      C6DD       C      12       9   .text       
+     deposit_char                              C6E9       F      15       1   .text       
+     sprintf                                   C6F8      29      41       2   .text       
+     initClock                                 C721       3       3       1   .text       
+     tick10ms                                  C724      36      54       1   .text       
+     toggleTimeZone                            C75A       F      15       1   .text       
+     processEventsClock                        C769      2B      43       1   .text       
+     setClock                                  C794      15      21       1   .text       
+     displayTimeClock                          C7A9      6F     111       2   .text       
+     displayDate                               C818      32      50       2   .text       
+     initializePort                            C84A       4       4       1   .text       
+     initDCF77                                 C84E      13      19       1   .text       
+     sampleSignalDCF77                         C861       3       3       1   .text       
+     _LCMP_P                                   C864      15      21       3   RUNTIME     
+     _LNEG                                     C879       D      13       1   RUNTIME     
+     _ILSEXT                                   C886       7       7       2   RUNTIME     
+     _CASE_DIRECT_BYTE                         C88D       5       5       1   RUNTIME     
+     _CASE_SEARCH_8                            C892      17      23       1   RUNTIME     
+     _CASE_SEARCH_8_BYTE                       C8A9      1A      26       1   RUNTIME     
+     VAR00002                                  C8C3       1       1       1   .const      
+     VAR00003                                  C8C4       1       1       0   .const      
+     VAR00004                                  C8C5       1       1       0   .const      
+     VAR00005                                  C8C6       1       1       0   .const      
+     VAR00006                                  C8C7       1       1       1   .const      
+     VAR00007                                  C8C8       1       1       0   .const      
+     VAR00008                                  C8C9       1       1       0   .const      
+     VAR00009                                  C8CA       1       1       0   .const      
+     VAR00010                                  C8CB       1       1       0   .const      
      int12                                     FFE6       2       2       0   .text       
 
 *********************************************************************************************
@@ -2944,46 +2948,55 @@ rtshc12.c.o (ansisi.lib):
   _CASE_DIRECT _CASE_CHECKED _CASE_CHECKED_BYTE _CASE_SEARCH _CASE_SEARCH_BYTE 
   _FCALL _FPCMP 
 clock.c.o:
-  toggleTimeZone setDate time displayDate 
+  setDate time 
 dcf77.c.o:
   readPort 
 NOT USED VARIABLES
+main.c.o:
+  btn3 StateBtn 
 rtshc12.c.o (ansisi.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
-clock.c.o:
-  days STRING..s..02d..02d..04d.13 year month weekday day 
+dcf77.c.o:
+  bitStateD dYear dMonth dWeekday dDay timeSignalLow timeFallingEdge 
+  statePrevSignal parityBit 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC88B ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xC8CC ---- SIZE       4 ---
 Filling bytes inserted
- 00091002
-------- ROM-ADDRESS: 0xC88F ---- RAM-ADDRESS: 0x1002 ---- SIZE       1 ---
+ 000B1002
+------- ROM-ADDRESS: 0xC8D0 ---- RAM-ADDRESS: 0x1002 ---- SIZE       1 ---
 Name of initialized Object : hrs
  17
-------- ROM-ADDRESS: 0xC890 ---- RAM-ADDRESS: 0x1003 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC8D1 ---- RAM-ADDRESS: 0x1003 ---- SIZE       1 ---
 Name of initialized Object : mins
  3A
-------- ROM-ADDRESS: 0xC891 ---- RAM-ADDRESS: 0x1004 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC8D2 ---- RAM-ADDRESS: 0x1004 ---- SIZE       1 ---
 Name of initialized Object : secs
  39
-------- ROM-ADDRESS: 0xC892 ---- RAM-ADDRESS: 0x1005 ---- SIZE       2 ---
-Name of initialized Object : dcf77Year
+------- ROM-ADDRESS: 0xC8D3 ---- RAM-ADDRESS: 0x1005 ---- SIZE       2 ---
+Name of initialized Object : year
  07E1
-------- ROM-ADDRESS: 0xC894 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC8D5 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC895 ---- RAM-ADDRESS: 0x1008 ---- SIZE       1 ---
-Name of initialized Object : dcf77Month:1
+------- ROM-ADDRESS: 0xC8D6 ---- RAM-ADDRESS: 0x1008 ---- SIZE       1 ---
+Name of initialized Object : month:1
  01
-------- ROM-ADDRESS: 0xC896 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xC8D7 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xC897 ---- RAM-ADDRESS: 0x100A ---- SIZE       1 ---
-Name of initialized Object : dcf77Day:1
+------- ROM-ADDRESS: 0xC8D8 ---- RAM-ADDRESS: 0x100A ---- SIZE       1 ---
+Name of initialized Object : weekday:1
+ 03
+------- ROM-ADDRESS: 0xC8D9 ---- SIZE       1 ---
+Filling bytes inserted
+ 00
+------- ROM-ADDRESS: 0xC8DA ---- RAM-ADDRESS: 0x100C ---- SIZE       1 ---
+Name of initialized Object : day:1
  01
-------- ROM-ADDRESS: 0xC898 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC8DB ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3003,7 +3016,7 @@ outputByte                USES delay_50us
 isrECT4                   USES tick10ms 
 main                      USES initLED initLCD initClock initDCF77 initTicker 
                                 clockEvent processEventsClock displayTimeClock dcf77Event 
-                                processEventsDCF77 displayDateDcf77 
+                                displayDate _PTH toggleTimeZone 
 vprintf                   USES vprintf _out _CASE_SEARCH_8_BYTE 
                                 _CASE_DIRECT_BYTE _CASE_SEARCH_8 pbuf _ILSEXT _LNEG pow8 _LCMP_P 
                                 pow16 pow10 
@@ -3013,15 +3026,16 @@ sprintf                   USES pbuf deposit_char vprintf
 initClock                 USES displayTimeClock 
 tick10ms                  USES ticks clockEvent setLED clrLED uptime 
                                 sampleSignalDCF77 dcf77Event 
+toggleTimeZone            USES TimeZoneActive 
 processEventsClock        USES secs mins hrs 
 setClock                  USES hrs mins secs ticks 
 displayTimeClock          USES hrs TimeZoneActive secs mins timeZone 
                                 STRING..s...02d..02d..02d.12 sprintf writeLine 
+displayDate               USES year month day weekday days 
+                                STRING..s..02d..02d..04d.13 sprintf writeLine 
 initializePort            USES _DDRH 
-initDCF77                 USES dcf77Hour dcf77Minute setClock displayDateDcf77 
+initDCF77                 USES dHour dMinute setClock displayDate 
                                 initializePort 
-displayDateDcf77          USES dcf77Year dcf77Month dcf77Day 
-                                STRING..02d..02d..04d.1 sprintf writeLine 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -3070,7 +3084,7 @@ DEPENDENCY TREE
  |  |  | 
  |  |  +- setClock            
  |  |  |    
- |  |  +- displayDateDcf77    
+ |  |  +- displayDate         
  |  |  |  | 
  |  |  |  +- sprintf              (see above)
  |  |  |  |  
@@ -3084,10 +3098,10 @@ DEPENDENCY TREE
  |  |    
  |  +- displayTimeClock     (see above)
  |  |  
- |  +- processEventsDCF77  
- |  |    
- |  +- displayDateDcf77     (see above)
- |     
+ |  +- displayDate          (see above)
+ |  |  
+ |  +- toggleTimeZone      
+ |       
  +- _Startup            
     | 
     +- _startupData        
@@ -3181,5 +3195,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 10
-Total size of all blocks to be downloaded: 2206
+Total size of all blocks to be downloaded: 2273
 
