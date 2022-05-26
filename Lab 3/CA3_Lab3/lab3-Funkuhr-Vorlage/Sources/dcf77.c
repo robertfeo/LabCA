@@ -90,57 +90,231 @@ void initDCF77(void)
 DCF77EVENT sampleSignalDCF77(int currentTime)
 {   DCF77EVENT event = NODCF77EVENT;
                                         
-//    if((readPortSim()) != previousSignalState){                     //  No-Edge      
-//    static int timeOfLastSignal;
-//    if(currentTime - timeOfLastSignal <= 3000)
-//    {                                                                 //  No-Edge
-//        if((readPort()) != statePrevSignal)
-//        {                          
-//            int tempTime;                                            //  Positive-Edge
-//            if(statePrevSignal == 0)
-//            {                               
-//                clrLED(0x02);
-//                tempTime = currentTime - timeSignalLow;
-//                statePrevSignal = 1;
-//                if((tempTime >= 70) && (tempTime <= 130)){
-//                    //  Low for  70-130ms
-//                    event = VALIDZERO;                   
-//                } 
-//                else if((tempTime >= 170) && (tempTime <= 230)){  
-//                    //  Low for 170-230ms
-//                    event = VALIDONE;  
-//                } 
-//                else{
-//                    //  Low for any other timeperiod
-//                    event = INVALID;
-//                }
-//            } 
-//            else{                                                       //  Negative-Edge
-//                setLED(0x02);
- //               tempTime = currentTime - timeFallingEdge;
- //               statePrevSignal = 0;
-//                if((tempTime >= 900) && (tempTime <= 1100)){
-//                    // Last falling edge was 900-1100ms ago
-//                    event = VALIDSECOND;
-//                } 
-//                else if((tempTime >= 1900) && (tempTime <= 2100)){
-//                    // Last falling edge was 1900-2100ms ago
-//                    event = VALIDMINUTE;
-//                } 
-//                else{
-//                    // Last falling edge was any other timeperiod ago
-//                    event = INVALID;
-//                }
-                
-//                timeSignalLow = timeFallingEdge = currentTime;
-//            }
- //       timeOfLastSignal = currentTime;   
-//        } 
-//    }
-//    else 
-//    {   // Longer than 3sec no SignalEdge
-//        event = INVALID;    
-//    }
-    return event;
+    if((readPortSim()) != statePrevSignal){                     //  No-Edge      
+    static int timeOfLastSignal;
+    if(currentTime - timeOfLastSignal <= 3000)
+    {                                                                 //  No-Edge
+        if((readPort()) != statePrevSignal)
+        {                          
+            int tempTime;                                            //  Positive-Edge
+            if(statePrevSignal == 0)
+            {                               
+                clrLED(0x02);
+                tempTime = currentTime - timeSignalLow;
+                statePrevSignal = 1;
+                if((tempTime >= 70) && (tempTime <= 130)){
+                   //  Low for  70-130ms
+                    event = VALIDZERO;                   
+                } 
+                else if((tempTime >= 170) && (tempTime <= 230)){  
+                    //  Low for 170-230ms
+                    event = VALIDONE;  
+                } 
+                else{
+                    //  Low for any other timeperiod
+                    event = INVALID;
+                }
+            } 
+            else{                                                       //  Negative-Edge
+                setLED(0x02);
+                tempTime = currentTime - timeFallingEdge;
+                statePrevSignal = 0;
+                if((tempTime >= 900) && (tempTime <= 1100)){
+                    // Last falling edge was 900-1100ms ago
+                    event = VALIDSECOND;
+                } 
+                else if((tempTime >= 1900) && (tempTime <= 2100)){
+                    // Last falling edge was 1900-2100ms ago
+                    event = VALIDMINUTE;
+                } 
+                else{
+                    // Last falling edge was any other timeperiod ago
+                    event = INVALID;
+                }
+               
+                timeSignalLow = timeFallingEdge = currentTime;
+            }
+        timeOfLastSignal = currentTime;   
+        } 
+    }
+    else 
+    {   // Longer than 3sec no SignalEdge
+        event = INVALID;    
+    }
+   return event;
 }
 
+}
+void processEventsDCF77(DCF77EVENT e){
+
+        if(bitStateD >0){
+            setClock(dHour, dMinute, 0);
+            setDate(dYear, dMonth, dWeekday, dDay);
+            setLED(0x08);
+        }
+
+        bitStateD = 0;
+        clrLED(0x04); 
+        
+switch(bitStateD){
+  if (bitStateD >=0 && bitStateD<17)    {
+   break;
+  }
+  case 17: break; 
+  case 18: break; 
+  case 19: break; 
+  case 20: //always 1 byte
+  //Minuten
+  case 21: 
+      dMinute+=1;
+      parityBit++; 
+      break; 
+  case 22:
+      dMinute+=2;
+      parityBit++; 
+      break; 
+  case 23:
+      dMinute+=4;
+      parityBit++; 
+      break;
+   
+  case 24:
+      dMinute+=8;
+      parityBit++; 
+      break; 
+  case 25:
+      dMinute+=10;
+      parityBit++; 
+      break; 
+  case 26:
+      dMinute+=20;
+      parityBit++; 
+      break; 
+  case 27:
+      dMinute+=40;
+      parityBit++; 
+      break; 
+  case 28:break; 
+  //hours
+  case 29:
+      dHour+=1;
+      parityBit++; 
+      break; ; 
+  case 30:
+      dHour+=2;
+      parityBit++; 
+      break;  
+  case 31:
+      dHour+=4;
+      parityBit++; 
+      break;  
+  case 32:
+      dHour+=8;
+      parityBit++; 
+      break;  
+  case 33:
+      dHour+=10;
+      parityBit++; 
+      break; 
+  case 34:
+      dHour+=20;
+      parityBit++; 
+      break; 
+  case 35:break; 
+  //days
+  case 36:
+      dDay+=1;
+      parityBit++; 
+      break;  
+  case 37:
+      dDay+=2;
+      parityBit++; 
+      break; 
+  case 38:
+      dDay+=4;
+      parityBit++; 
+      break; 
+  case 39:
+      dDay+=8;
+      parityBit++; 
+      break;
+  case 40:
+      dDay+=10;
+      parityBit++; 
+      break; 
+  case 41:
+      dDay+=20;
+      parityBit++; 
+      break;
+  //weekday
+  case 42:
+      dWeekday+=1;
+      parityBit++; 
+      break; 
+  case 43:
+      dWeekday+=2;
+      parityBit++; 
+      break; 
+  case 44:
+      dWeekday+=4;
+      parityBit++; 
+      break; 
+  //month
+  case 45:
+      dMonth+=1;
+      parityBit++; 
+      break; 
+  case 46:
+      dWeekday+=2;
+      parityBit++; 
+      break;  
+  case 47:
+      dWeekday+=4;
+      parityBit++; 
+      break; 
+  case 48:
+      dWeekday+=8;
+      parityBit++; 
+      break; 
+  case 49:
+      dWeekday+=10;
+      parityBit++; 
+      break; 
+  //year
+  case 50:
+      dYear+=1;
+      parityBit++; 
+      break;  
+  case 51:
+      dYear+=2;
+      parityBit++; 
+      break; 
+  case 52:
+      dYear+=4;
+      parityBit++; 
+      break; 
+  case 53:
+      dYear+=8;
+      parityBit++; 
+      break;  
+  case 54:
+      dYear+=10;
+      parityBit++; 
+      break;  
+  case 55:
+      dYear+=20;
+      parityBit++; 
+      break; 
+  case 56:
+      dYear+=40;
+      parityBit++; 
+      break;  
+  case 57:      
+      dYear+=80;
+      parityBit++; 
+      break; 
+  case 58:break; 
+
+
+}
+}

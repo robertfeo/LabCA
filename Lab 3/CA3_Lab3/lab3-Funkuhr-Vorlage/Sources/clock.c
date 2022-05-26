@@ -24,8 +24,8 @@ CLOCKEVENT clockEvent = NOCLOCKEVENT;
 
 // Modul internal global variables
 static char TimeZoneActive = 0;
-static char hrs = 23, mins = 58, secs = 57;
-static int  year=2017, month=1, weekday=3, day=1;
+static char hrs = 16, mins = 58, secs = 57;
+static int  year=2018, month=1, weekday=3, day=1;
 static int ticks = 0;
 static int uptime = 0;
 
