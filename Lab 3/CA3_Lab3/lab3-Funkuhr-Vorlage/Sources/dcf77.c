@@ -182,13 +182,13 @@ void processEventsDCF77(DCF77EVENT e){
       case 18: break; 
       case 19: break; 
       case 20: //always 1 byte
-           if(event == VALIDZERO){
-           bitStateDCF77 = -1;
+           if(e == VALIDZERO){
+           bitStateD = -1;
            setLED(0x04);               
            clrLED(0x08);
            }
-          parityBitCounter = 0;
-          dcf77Minute = 0;
+          parityBit = 0;
+          dMinute = 0;
           break;
       //Minuten
       case 21: 
@@ -341,6 +341,7 @@ void processEventsDCF77(DCF77EVENT e){
           break; 
       case 58:break; 
 
-
     }
     }
+    }
+}
