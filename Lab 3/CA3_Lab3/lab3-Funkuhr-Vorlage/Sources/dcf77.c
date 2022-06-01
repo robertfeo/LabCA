@@ -252,30 +252,66 @@ void processEventsDCF77(DCF77EVENT e){
             break; 
         //hours
         case 29:
+            if(e == VALIDONE){
+
             dHour+=1;
             parityBit++; 
+            }
             break; ; 
         case 30:
+            if(e == VALIDONE){
+
             dHour+=2;
             parityBit++; 
+            }
             break;  
         case 31:
+            if(e == VALIDONE){
             dHour+=4;
             parityBit++; 
+            }
             break;  
         case 32:
+            if(e == VALIDONE){
+
             dHour+=8;
             parityBit++; 
+            }
             break;  
         case 33:
+            if(e == VALIDONE){
+
             dHour+=10;
             parityBit++; 
+            }
             break; 
         case 34:
+            if(e == VALIDONE){
+
             dHour+=20;
             parityBit++; 
+            }
             break; 
-        case 35:break; 
+        case 35:
+           if(((e == VALIDONE) && ((parityBit%2) == 0)) || ((e == VALIDZERO) && ((parityBit%2) == 1))){
+                bitStateD = -1;
+                setLED(0x04);
+                clrLED(0x08);  
+            } 
+            else if((dHour < 0) || (dHour > 23)){
+                bitStateD = -1;
+                setLED(0x04);
+                clrLED(0x08);
+            }
+            else{
+            }
+            parityBit = 0;
+            dDay = 0;
+            dWeekday = 0;
+            dMonth = 0;
+            dYear = 0;
+            break;
+         
         //days
         case 36:
             dDay+=1;
