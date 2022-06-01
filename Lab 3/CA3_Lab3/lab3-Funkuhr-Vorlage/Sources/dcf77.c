@@ -63,8 +63,10 @@ void initializePort(void)
 char readPort(void)
 {
     if((PTH&1) == 0){
+    //direkt hier leds steuern, die zweite die signal anzeigt von dcf77
         return 0;  
     } else{
+    //dann clearen
         return 1;  
     }
 }
@@ -88,7 +90,7 @@ void initDCF77(void)
 //  Returns:    DCF77 event, i.e. second pulse, 0 or 1 data bit or minute marker
 
 DCF77EVENT sampleSignalDCF77(int currentTime)
-{   DCF77EVENT event = NODCF77EVENT;
+{   DCF77EVENT e = NODCF77EVENT;
                                         
     if((readPortSim()) != statePrevSignal){                     //  No-Edge      
     static int timeOfLastSignal;
@@ -104,15 +106,15 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
                 statePrevSignal = 1;
                 if((tempTime >= 70) && (tempTime <= 130)){
                    //  Low for  70-130ms
-                    event = VALIDZERO;                   
+                    e = VALIDZERO;                   
                 } 
                 else if((tempTime >= 170) && (tempTime <= 230)){  
                     //  Low for 170-230ms
-                    event = VALIDONE;  
+                    e = VALIDONE;  
                 } 
                 else{
                     //  Low for any other timeperiod
-                    event = INVALID;
+                    e = INVALID;
                 }
             } 
             else{                                                       //  Negative-Edge
@@ -121,15 +123,15 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
                 statePrevSignal = 0;
                 if((tempTime >= 900) && (tempTime <= 1100)){
                     // Last falling edge was 900-1100ms ago
-                    event = VALIDSECOND;
+                    e = VALIDSECOND;
                 } 
                 else if((tempTime >= 1900) && (tempTime <= 2100)){
                     // Last falling edge was 1900-2100ms ago
-                    event = VALIDMINUTE;
+                    e = VALIDMINUTE;
                 } 
                 else{
                     // Last falling edge was any other timeperiod ago
-                    event = INVALID;
+                    e = INVALID;
                 }
                
                 timeSignalLow = timeFallingEdge = currentTime;
@@ -139,9 +141,9 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
     }
     else 
     {   // Longer than 3sec no SignalEdge
-        event = INVALID;    
+        e = INVALID;    
     }
-   return event;
+   return e;
 }
 
 }
@@ -175,11 +177,12 @@ void processEventsDCF77(DCF77EVENT e){
     else{
           
       switch(bitStateD){
-        if (bitStateD >=0 && bitStateD<17)    {
-         break;
+      //default für die ersten case fälle 
+        if (bitStateD >=0 && bitStateD<19)    {
         }
-        case 17: break; 
-        case 18: break; 
+        case 0:
+        case 17:  
+        case 18: 
         case 19: break; 
         case 20: //always 1 byte
              if(e == VALIDZERO){
