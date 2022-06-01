@@ -174,174 +174,203 @@ void processEventsDCF77(DCF77EVENT e){
         } 
     else{
           
-    switch(bitStateD){
-      if (bitStateD >=0 && bitStateD<17)    {
-       break;
-      }
-      case 17: break; 
-      case 18: break; 
-      case 19: break; 
-      case 20: //always 1 byte
-           if(e == VALIDZERO){
-           bitStateD = -1;
-           setLED(0x04);               
-           clrLED(0x08);
-           }
-          parityBit = 0;
-          dMinute = 0;
-          break;
-      //Minuten
-      case 21: 
-          dMinute+=1;
-          parityBit++; 
-          break; 
-      case 22:
-          dMinute+=2;
-          parityBit++; 
-          break; 
-      case 23:
-          dMinute+=4;
-          parityBit++; 
-          break;
-       
-      case 24:
-          dMinute+=8;
-          parityBit++; 
-          break; 
-      case 25:
-          dMinute+=10;
-          parityBit++; 
-          break; 
-      case 26:
-          dMinute+=20;
-          parityBit++; 
-          break; 
-      case 27:
-          dMinute+=40;
-          parityBit++; 
-          break; 
-      case 28:break; 
-      //hours
-      case 29:
-          dHour+=1;
-          parityBit++; 
-          break; ; 
-      case 30:
-          dHour+=2;
-          parityBit++; 
-          break;  
-      case 31:
-          dHour+=4;
-          parityBit++; 
-          break;  
-      case 32:
-          dHour+=8;
-          parityBit++; 
-          break;  
-      case 33:
-          dHour+=10;
-          parityBit++; 
-          break; 
-      case 34:
-          dHour+=20;
-          parityBit++; 
-          break; 
-      case 35:break; 
-      //days
-      case 36:
-          dDay+=1;
-          parityBit++; 
-          break;  
-      case 37:
-          dDay+=2;
-          parityBit++; 
-          break; 
-      case 38:
-          dDay+=4;
-          parityBit++; 
-          break; 
-      case 39:
-          dDay+=8;
-          parityBit++; 
-          break;
-      case 40:
-          dDay+=10;
-          parityBit++; 
-          break; 
-      case 41:
-          dDay+=20;
-          parityBit++; 
-          break;
-      //weekday
-      case 42:
-          dWeekday+=1;
-          parityBit++; 
-          break; 
-      case 43:
-          dWeekday+=2;
-          parityBit++; 
-          break; 
-      case 44:
-          dWeekday+=4;
-          parityBit++; 
-          break; 
-      //month
-      case 45:
-          dMonth+=1;
-          parityBit++; 
-          break; 
-      case 46:
-          dWeekday+=2;
-          parityBit++; 
-          break;  
-      case 47:
-          dWeekday+=4;
-          parityBit++; 
-          break; 
-      case 48:
-          dWeekday+=8;
-          parityBit++; 
-          break; 
-      case 49:
-          dWeekday+=10;
-          parityBit++; 
-          break; 
-      //year
-      case 50:
-          dYear+=1;
-          parityBit++; 
-          break;  
-      case 51:
-          dYear+=2;
-          parityBit++; 
-          break; 
-      case 52:
-          dYear+=4;
-          parityBit++; 
-          break; 
-      case 53:
-          dYear+=8;
-          parityBit++; 
-          break;  
-      case 54:
-          dYear+=10;
-          parityBit++; 
-          break;  
-      case 55:
-          dYear+=20;
-          parityBit++; 
-          break; 
-      case 56:
-          dYear+=40;
-          parityBit++; 
-          break;  
-      case 57:      
-          dYear+=80;
-          parityBit++; 
-          break; 
-      case 58:break; 
+      switch(bitStateD){
+        if (bitStateD >=0 && bitStateD<17)    {
+         break;
+        }
+        case 17: break; 
+        case 18: break; 
+        case 19: break; 
+        case 20: //always 1 byte
+             if(e == VALIDZERO){
+             bitStateD = -1;
+             setLED(0x04);               
+             clrLED(0x08);
+             }
+            parityBit = 0;
+            dMinute = 0;
+            break;
+        //Minuten
+        case 21:
+            if(e == VALIDONE){ 
+            dMinute+=1;
+            parityBit++; 
+            }
+            break; 
+        case 22:
+            if(e == VALIDONE){ 
+            dMinute+=2;
+            parityBit++; 
+            }
+            break; 
+        case 23:
+            if(e == VALIDONE){ 
+            dMinute+=4;
+            parityBit++; 
+            }
+            break;
+         
+        case 24:
+            if(e == VALIDONE){ 
+            dMinute+=8;
+            parityBit++; 
+            }
+            break; 
+        case 25:
+            if(e == VALIDONE){     
+            dMinute+=10;
+            parityBit++; 
+            }
+            break; 
+        case 26:
+            if(e == VALIDONE){ 
+            dMinute+=20;
+            parityBit++; 
+             }
+            break; 
+        case 27:
+            if(e == VALIDONE){ 
+            dMinute+=40;
+            parityBit++; 
+            }
+            break; 
+        case 28:
+            if(((e == VALIDONE) && ((parityBit%2) == 0)) || ((e == VALIDZERO) && ((parityBit%2) == 1))){
+                bitStateD = -1;
+                setLED(0x04);
+                clrLED(0x08);  
+            } 
+ 
+            else if ((dMinute < 0) || (dMinute > 59)){
+                bitStateD = -1;
+                setLED(0x04);
+                clrLED(0x08);
+            } else{
+            }
+            parityBit = 0;
+            dHour = 0;
+            break; 
+        //hours
+        case 29:
+            dHour+=1;
+            parityBit++; 
+            break; ; 
+        case 30:
+            dHour+=2;
+            parityBit++; 
+            break;  
+        case 31:
+            dHour+=4;
+            parityBit++; 
+            break;  
+        case 32:
+            dHour+=8;
+            parityBit++; 
+            break;  
+        case 33:
+            dHour+=10;
+            parityBit++; 
+            break; 
+        case 34:
+            dHour+=20;
+            parityBit++; 
+            break; 
+        case 35:break; 
+        //days
+        case 36:
+            dDay+=1;
+            parityBit++; 
+            break;  
+        case 37:
+            dDay+=2;
+            parityBit++; 
+            break; 
+        case 38:
+            dDay+=4;
+            parityBit++; 
+            break; 
+        case 39:
+            dDay+=8;
+            parityBit++; 
+            break;
+        case 40:
+            dDay+=10;
+            parityBit++; 
+            break; 
+        case 41:
+            dDay+=20;
+            parityBit++; 
+            break;
+        //weekday
+        case 42:
+            dWeekday+=1;
+            parityBit++; 
+            break; 
+        case 43:
+            dWeekday+=2;
+            parityBit++; 
+            break; 
+        case 44:
+            dWeekday+=4;
+            parityBit++; 
+            break; 
+        //month
+        case 45:
+            dMonth+=1;
+            parityBit++; 
+            break; 
+        case 46:
+            dWeekday+=2;
+            parityBit++; 
+            break;  
+        case 47:
+            dWeekday+=4;
+            parityBit++; 
+            break; 
+        case 48:
+            dWeekday+=8;
+            parityBit++; 
+            break; 
+        case 49:
+            dWeekday+=10;
+            parityBit++; 
+            break; 
+        //year
+        case 50:
+            dYear+=1;
+            parityBit++; 
+            break;  
+        case 51:
+            dYear+=2;
+            parityBit++; 
+            break; 
+        case 52:
+            dYear+=4;
+            parityBit++; 
+            break; 
+        case 53:
+            dYear+=8;
+            parityBit++; 
+            break;  
+        case 54:
+            dYear+=10;
+            parityBit++; 
+            break;  
+        case 55:
+            dYear+=20;
+            parityBit++; 
+            break; 
+        case 56:
+            dYear+=40;
+            parityBit++; 
+            break;  
+        case 57:      
+            dYear+=80;
+            parityBit++; 
+            break; 
+        case 58:break; 
 
-    }
+      }
     }
     }
 }
