@@ -36,7 +36,7 @@ DCF77EVENT dcf77Event = NODCF77EVENT;
 static int  dYear=0, dMonth=0, dWeekday=0, dDay=0; 
 static char dHour=0, dMinute=0;                //dcf77 Date and time as integer values
 static int  timeSignalLow=0, timeFallingEdge=0;
-static char statePrevSignal=0, bitStateD = -1, parityBit = 0;
+static char statePrevSignal=0, bitStateD = 1, parityBit = 0;
 
 // Prototypes of functions simulation DCF77 signals, when testing without
 // a DCF77 radio signal receiver
@@ -92,7 +92,7 @@ void initDCF77(void)
 DCF77EVENT sampleSignalDCF77(int currentTime)
 {   DCF77EVENT e = NODCF77EVENT;
                                         
-    if((readPortSim()) != statePrevSignal){                     //  No-Edge      
+   // if((readPortSim()) != statePrevSignal){                     //  No-Edge      
     static int timeOfLastSignal;
     if(currentTime - timeOfLastSignal <= 3000)
     {                                                                 //  No-Edge
@@ -146,7 +146,7 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
    return e;
 }
 
-}
+
 
 // ****************************************************************************
 // Process the DCF77 events
@@ -155,12 +155,11 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
 // Returns:     -
 void processEventsDCF77(DCF77EVENT e){
       if(e == VALIDMINUTE){
-
-        if(bitStateD >0){
-            setClock(dHour, dMinute, 0);
-            setDate(dYear, dMonth, dWeekday, dDay);
-            setLED(0x08);
-        }
+          if(bitStateD >0){
+              setClock(dHour, dMinute, 0);
+              setDate(dYear, dMonth, dWeekday, dDay);
+              setLED(0x08);
+          }
 
         bitStateD = 0;
         clrLED(0x04); 
@@ -174,13 +173,26 @@ void processEventsDCF77(DCF77EVENT e){
             setLED(0x04);
             clrLED(0x08);
         } 
-    else{
+      else{
           
-      switch(bitStateD){
-      //default für die ersten case fälle 
-        if (bitStateD >=0 && bitStateD<19)    {
-        }
+        switch(bitStateD){
         case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 16:        
         case 17:  
         case 18: 
         case 19: break; 
