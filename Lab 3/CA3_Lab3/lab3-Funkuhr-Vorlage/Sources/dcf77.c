@@ -314,99 +314,156 @@ void processEventsDCF77(DCF77EVENT e){
          
         //days
         case 36:
+         if(e == VALIDONE){
             dDay+=1;
             parityBit++; 
             break;  
+         }
         case 37:
+           if(e == VALIDONE){
             dDay+=2;
             parityBit++; 
             break; 
+           }
         case 38:
+             if(e == VALIDONE){
             dDay+=4;
             parityBit++; 
+             }
             break; 
+             
         case 39:
+             if(e == VALIDONE){
             dDay+=8;
             parityBit++; 
+             }
             break;
         case 40:
+        if(e == VALIDONE){
             dDay+=10;
             parityBit++; 
+        }
             break; 
         case 41:
+        if(e == VALIDONE){
             dDay+=20;
             parityBit++; 
-            break;
+        if((dDay < 0) || (dDay > 31)){
+             bitStateD= -1;
+             setLED(0x04);
+             clrLED(0x08);
+        }
+            
+        break;
         //weekday
         case 42:
+        if(e == VALIDONE){
             dWeekday+=1;
             parityBit++; 
-            break; 
+        }break; 
         case 43:
+         if(e == VALIDONE){
             dWeekday+=2;
             parityBit++; 
-            break; 
+         }break; 
         case 44:
+          if(e == VALIDONE){
             dWeekday+=4;
             parityBit++; 
-            break; 
+          }break; 
         //month
         case 45:
+           if(e == VALIDONE){
             dMonth+=1;
             parityBit++; 
-            break; 
+           }break; 
         case 46:
+            if(e == VALIDONE){
             dWeekday+=2;
             parityBit++; 
-            break;  
+            }break;  
         case 47:
+        if(e == VALIDONE){
             dWeekday+=4;
             parityBit++; 
-            break; 
+        }break; 
         case 48:
+         if(e == VALIDONE){
             dWeekday+=8;
             parityBit++; 
-            break; 
+         }break; 
+         
         case 49:
+         if(e == VALIDONE){
             dWeekday+=10;
             parityBit++; 
-            break; 
+         }
+         if((dMonth < 0) || (dMonth > 12)){
+              bitStateD = -1;
+              setLED(0x04);
+              clrLED(0x08);
+          } 
+         break; 
         //year
         case 50:
+        if(e == VALIDONE){
             dYear+=1;
             parityBit++; 
-            break;  
+        }break;  
         case 51:
+        if(e == VALIDONE){
             dYear+=2;
             parityBit++; 
-            break; 
+        }break; 
         case 52:
+        if(e == VALIDONE){
             dYear+=4;
             parityBit++; 
-            break; 
+        }break; 
         case 53:
+         if(e == VALIDONE){
             dYear+=8;
             parityBit++; 
-            break;  
+         }break;  
         case 54:
+          if(e == VALIDONE){
             dYear+=10;
             parityBit++; 
-            break;  
+            }break;  
         case 55:
+            if(e == VALIDONE){
             dYear+=20;
             parityBit++; 
-            break; 
+            }break; 
         case 56:
+            if(e == VALIDONE){
             dYear+=40;
             parityBit++; 
-            break;  
+            }break;  
         case 57:      
+            if(e == VALIDONE){
             dYear+=80;
             parityBit++; 
-            break; 
-        case 58:break; 
+            }break; 
+        case 58:
+        if(((e == VALIDONE) && ((parityBit%2) == 0)) || ((e == VALIDZERO) && ((parityBit%2) == 1))){
+                      bitStateD = -1;                     
+                      setLED(0x04);
+                      clrLED(0x08);  
+                  } 
+                  else if((dYear < 0) || (dYear > 99)){
+                      bitStateD = -1;
+                      setLED(0x04);
+                      clrLED(0x08);
+                  } else{
+                      dYear += 2000; 
+                  }
+                  parityBit= 0;
+                  break;
+              
 
+                }
+            }
       }
-    }
-    }
+  }   
 }
