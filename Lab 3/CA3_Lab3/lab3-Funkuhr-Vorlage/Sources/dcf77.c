@@ -134,7 +134,7 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
                
                 timeSignalLow = timeFallingEdge = currentTime;
             }
-        timeOfLastSignal = currentTime;   
+         timeOfLastSignal = currentTime;   
         } 
     }
     else 
