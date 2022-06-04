@@ -24,8 +24,8 @@ CLOCKEVENT clockEvent = NOCLOCKEVENT;
 
 // Modul internal global variables
 static char TimeZoneActive = 0;
-static char hrs = 16, mins = 58, secs = 57;
-static int  year=2018, month=1, weekday=3, day=1;
+static char hrs = 0, mins = 0, secs = 0;
+static int  year=2018, month=2, weekday=8, day=28;
 static int ticks = 0;
 static int uptime = 0;
 
@@ -38,7 +38,8 @@ const char timeZone[2][3] = { "DE", "US" };
 //  Initialize clock module
 //  Called once before using the module
 void initClock(void)
-{   displayTimeClock();
+{   
+    displayTimeClock();
 }
 
 // ****************************************************************************
@@ -46,12 +47,16 @@ void initClock(void)
 // Keep processing short in this function, run time must not exceed 10ms!
 // Callback function, never called by user directly.
 void tick10ms(void)
-{   if (++ticks >= ONESEC)                      // Check if one second has elapsed
-    {   clockEvent = SECONDTICK;                // ... if yes, set clock event
+{   
+    if (++ticks >= ONESEC)                      // Check if one second has elapsed
+    {   
+        clockEvent = SECONDTICK;                // ... if yes, set clock event
         ticks=0;
         setLED(0x01);                           // ... and turn on LED on port B.0 for 200msec
-    } else if (ticks == MSEC200)
-    {   clrLED(0x01);
+    } 
+    else if (ticks == MSEC200)
+    {   
+        clrLED(0x01);
     }
     uptime = uptime + 10;                       // Update CPU time base
 

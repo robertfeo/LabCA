@@ -14,14 +14,14 @@ OPEN data 0 78 60 22
 Data:2 < attributes SCOPE local,COMPLEMENT None,FORMAT Symb,MODE automatic,SORT NotSort,UPDATERATE 10,NAMEWIDTH 16
 OPEN command 60 78 40 22
 Command < attributes CACHESIZE 1000
-OPEN io_led 74 53 12 16
+OPEN io_led 74 53 8 10
 IO_Led< PORT 1
 IO_Led< DDR 3
 IO_Led < LINKADDR "0xfffff6" "0xfffff8" "0xfffffa" "0xfffffc" "0xfffffe"
-OPEN lcd 72 68 20 19
+OPEN lcd 72 68 13 11
 LCD < LCDPORT "0x32" "0x0"
 LCD < LINKADDR "0xfffff6" "0xfffff8" "0xfffffa" "0xfffffc" "0xfffffe"
-OPEN Push_buttons 4 22 23 15
+OPEN Push_buttons 44 67 15 9
 Push_Buttons < PBPORT "0x260"
 Push_Buttons < LINKADDR "0xfffff6" "0xfffff8" "0xfffffa" "0xfffffc" "0xfffffe"
 bckcolor 50331647

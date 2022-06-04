@@ -35,27 +35,25 @@ void main(void)
     initTicker();                               // Initialize the time ticker
 
     for(;;)                                     // Endless loop
-    {   if (clockEvent != NOCLOCKEVENT)         // Process clock event
-        {   processEventsClock(clockEvent);
-
+    {
+        if (clockEvent != NOCLOCKEVENT)         // Process clock event
+        {   
+            processEventsClock(clockEvent);
             displayTimeClock();
-
             clockEvent=NOCLOCKEVENT;            // Reset clock event
         }
 
         if (dcf77Event != NODCF77EVENT)         // Process DCF77 events
-        {   processEventsDCF77(dcf77Event);
-
-           // displayDateDcf77();
-                displayDate();
-
+        {   
+            processEventsDCF77(dcf77Event);
+            displayDate();
             dcf77Event = NODCF77EVENT;          // Reset dcf77 event
         }
-        if(PTH ==0x08)
-        // if((PTH == 0x04 && ((uptime - btn3) > 0))  && (StateBtn!= (PTH & 8)))                     // Button 2
+        //if(PTH ==0x08)
+        if((PTH == 0x08 && ((uptime - btn3) > 0))  || (StateBtn!= (PTH & 8)))                     // Button 2
             {        
-            toggleTimeZone();
-            btn3=uptime+100;
+              toggleTimeZone();
+              btn3=uptime+100;
             }
             StateBtn = PTH & 8;
     }
