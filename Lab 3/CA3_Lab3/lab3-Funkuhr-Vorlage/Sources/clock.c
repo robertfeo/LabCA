@@ -25,7 +25,7 @@ CLOCKEVENT clockEvent = NOCLOCKEVENT;
 // Modul internal global variables
 static char TimeZoneActive = 0;
 static char hrs = 0, mins = 0, secs = 0;
-static int  year=2018, month=2, weekday=8, day=28;
+static int  year=2021, month=1, weekday=7, day=1;
 static int ticks = 0;
 static int uptime = 0;
 
@@ -92,11 +92,14 @@ void processEventsClock(CLOCKEVENT event)
         return;
 
     if (++secs >= 60)
-    {   secs = 0;
+    {   
+        secs = 0;
         if (++mins >= 60)
-        {   mins = 0;
+        {   
+            mins = 0;
             if (++hrs >= 24)
-            {   hrs = 0;
+            {   
+                hrs = 0;
             }
         }
      }
@@ -107,7 +110,8 @@ void processEventsClock(CLOCKEVENT event)
 // Parameters:  year, month, weekday, day as integers
 // Returns:     -
 void setDate(int years, int months, int weekdays, int days)
-{   year = years;
+{   
+    year = years;
     month = months;
     day = days;
     weekday = weekdays;
@@ -118,7 +122,8 @@ void setDate(int years, int months, int weekdays, int days)
 // Parameters:  hours, minutes, seconds as integers
 // Returns:     -
 void setClock(char hours, char minutes, char seconds)
-{   hrs  = hours;
+{   
+    hrs  = hours;
     mins = minutes;
     secs = seconds;
     ticks = 0;
@@ -129,7 +134,8 @@ void setClock(char hours, char minutes, char seconds)
 // Parameter:   -
 // Returns:     -
 void displayTimeClock(void)
-{   char uhrzeit[32] = "00:00:00";
+{   
+    char uhrzeit[32] = "00:00:00";
     char tempH = hrs;
     if(TimeZoneActive){
       if(hrs<6){          
@@ -148,7 +154,8 @@ void displayTimeClock(void)
 // Parameters:  -
 // Returns:     CPU time base in milliseconds
 int time(void)
-{   return uptime;
+{   
+    return uptime;
 }
 
 // ****************************************************************************
@@ -156,8 +163,8 @@ int time(void)
 // Parameter:   -
 // Returns:     -
 void displayDate(void)
-{   char datum[32];
-
+{   
+    char datum[32];
     (void) sprintf(datum, "%s %02d.%02d.%04d", days[weekday], day, month, year);
     writeLine(datum, 1);
 }

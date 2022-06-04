@@ -1,10 +1,10 @@
 /*  Radio signal clock - C Main Program
 
-    Computerarchitektur 3
+    Computerarchitektur
+    Hochschule Esslingen
     (C) 2018 J. Friedrich, W. Zimmermann Hochschule Esslingen
 
-    Author:   W.Zimmermann, Jun  10, 2016
-    Modified: 
+    Author:   Selina Moritz, Robert Fesko
 
 */
 
