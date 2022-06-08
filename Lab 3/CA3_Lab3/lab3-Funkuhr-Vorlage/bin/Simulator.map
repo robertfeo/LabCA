@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "D:\Wissen\Hochschule\Semester 4\Computerarchitektur\Repositories\LabCA\Lab 3\CA3_Lab3\lab3-Funkuhr-Vorlage\bin\Simulator.abs"
+PROGRAM "C:\Users\selin\Documents\GitHub\LabCA\Lab 3\CA3_Lab3\lab3-Funkuhr-Vorlage\bin\Simulator.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -34,7 +34,7 @@ extern struct _tagStartup {
   long     stackOffset    0x1133
   unsigned nofZeroOut     1
   _Range   pZeroOut       0x1000     52
-  _Copy    *toCopyDownBeg 0xCCFE
+  _Copy    *toCopyDownBeg 0xCD1B
 } _startupData;
 
 *********************************************************************************************
@@ -45,9 +45,9 @@ Section Name                    Size  Type     From       To       Segment
 .startData                        15     R     0xC15B     0xC169   ROM_C000
 .rodata                          154     R     0xC16A     0xC203   ROM_C000
 .rodata1                          37     R     0xC204     0xC228   ROM_C000
-.text                           2647     R     0xC229     0xCC7F   ROM_C000
-.copy                             15     R     0xCCFE     0xCD0C   ROM_C000
-.data                             11   R/W     0x1000     0x100A   RAM
+.text                           2676     R     0xC229     0xCC9C   ROM_C000
+.copy                             16     R     0xCD1B     0xCD2A   ROM_C000
+.data                             12   R/W     0x1000     0x100B   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
 .abs_section_a                     1   N/I        0xA        0xA   .absSeg2
@@ -574,14 +574,14 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_2ae                   2   N/I      0x2AE      0x2AF   .absSeg523
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg524
 ticker.asm__ORG00001               2     R     0xFFE6     0xFFE7   .absSeg525
-.bss                              41   R/W     0x100B     0x1033   RAM
-RUNTIME                          117     R     0xCC80     0xCCF4   ROM_C000
-.const                             9     R     0xCCF5     0xCCFD   ROM_C000
+.bss                              40   R/W     0x100C     0x1033   RAM
+RUNTIME                          117     R     0xCC9D     0xCD11   ROM_C000
+.const                             9     R     0xCD12     0xCD1A   ROM_C000
 .stack                           256   R/W     0x1034     0x1133   RAM
 .vectSeg526_vect                   2     R     0xFFFE     0xFFFF   .vectSeg526
 
 Summary of section sizes per section type:
-READ_ONLY (R):         D11 (dec:     3345)
+READ_ONLY (R):         D2F (dec:     3375)
 READ_WRITE (R/W):      134 (dec:      308)
 NO_INIT (N/I):         24E (dec:      590)
 
@@ -1127,9 +1127,9 @@ MODULE:                 -- main.c.o --
 - PROCEDURES:
      main                                      C229      63      99       0   .text       
 - VARIABLES:
-     btn3                                      100B       2       2       2   .bss        
-     StateBtn                                  100D       1       1       2   .bss        
-     uptime                                    100E       2       2       2   .bss        
+     btn3                                      100C       2       2       2   .bss        
+     StateBtn                                  100E       1       1       2   .bss        
+     uptime                                    100F       2       2       2   .bss        
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
      Init                                      C000      29      41       1   .init       
@@ -1148,17 +1148,17 @@ MODULE:                 -- PRINTF.C.o (ansisi.lib) --
      pow10                                     C16A      28      40       4   .rodata     
      pow16                                     C192      20      32       4   .rodata     
      pow8                                      C1B2      2C      44       4   .rodata     
-     pbuf                                      1010       6       6      15   .bss        
+     pbuf                                      1011       6       6      15   .bss        
 MODULE:                 -- rtshc12.c.o (ansisi.lib) --
 - PROCEDURES:
-     _BDIVMODS                                 CC80       B      11       1   RUNTIME     
-     _LCMP_P                                   CC8B      15      21       3   RUNTIME     
-     _LNEG                                     CCA0       D      13       1   RUNTIME     
-     _ILSEXT                                   CCAD       7       7       2   RUNTIME     
-     _CASE_DIRECT_BYTE                         CCB4       5       5       1   RUNTIME     
-     _CASE_CHECKED                             CCB9       B      11       1   RUNTIME     
-     _CASE_SEARCH_8                            CCC4      17      23       1   RUNTIME     
-     _CASE_SEARCH_8_BYTE                       CCDB      1A      26       1   RUNTIME     
+     _BDIVMODS                                 CC9D       B      11       1   RUNTIME     
+     _LCMP_P                                   CCA8      15      21       3   RUNTIME     
+     _LNEG                                     CCBD       D      13       1   RUNTIME     
+     _ILSEXT                                   CCCA       7       7       2   RUNTIME     
+     _CASE_DIRECT_BYTE                         CCD1       5       5       1   RUNTIME     
+     _CASE_CHECKED                             CCD6       B      11       1   RUNTIME     
+     _CASE_SEARCH_8                            CCE1      17      23       1   RUNTIME     
+     _CASE_SEARCH_8_BYTE                       CCF8      1A      26       1   RUNTIME     
 - VARIABLES:
 MODULE:                 -- lcd.asm.o --
 - PROCEDURES:
@@ -1181,15 +1181,15 @@ MODULE:                 -- lcd.asm.o --
 - VARIABLES:
      VAR00001                                  1000       1       1       2   .data       
      temp1                                     1001       1       1       0   .data       
-     VAR00002                                  CCF5       1       1       1   .const      
-     VAR00003                                  CCF6       1       1       0   .const      
-     VAR00004                                  CCF7       1       1       0   .const      
-     VAR00005                                  CCF8       1       1       0   .const      
-     VAR00006                                  CCF9       1       1       1   .const      
-     VAR00007                                  CCFA       1       1       0   .const      
-     VAR00008                                  CCFB       1       1       0   .const      
-     VAR00009                                  CCFC       1       1       0   .const      
-     VAR00010                                  CCFD       1       1       0   .const      
+     VAR00002                                  CD12       1       1       1   .const      
+     VAR00003                                  CD13       1       1       0   .const      
+     VAR00004                                  CD14       1       1       0   .const      
+     VAR00005                                  CD15       1       1       0   .const      
+     VAR00006                                  CD16       1       1       1   .const      
+     VAR00007                                  CD17       1       1       0   .const      
+     VAR00008                                  CD18       1       1       0   .const      
+     VAR00009                                  CD19       1       1       0   .const      
+     VAR00010                                  CD1A       1       1       0   .const      
 MODULE:                 -- led.asm.o --
 - PROCEDURES:
      initLED                                   C0EC      1B      27       1   .init       
@@ -1219,13 +1219,13 @@ MODULE:                 -- clock.c.o --
      timeZone                                  C1FE       6       6       1   .rodata     
      STRING..s...02d..02d..02d.12              C204      13      19       1   .rodata1    
      STRING..s..02d..02d..04d.13               C217      12      18       1   .rodata1    
-     year                                      1002       2       2       2   .data       
-     month                                     1004       2       2       2   .data       
-     weekday                                   1006       2       2       2   .data       
-     day                                       1008       2       2       2   .data       
-     clockEvent                                1016       2       2       3   .bss        
-     TimeZoneActive                            1018       1       1       4   .bss        
-     hrs                                       1019       1       1       6   .bss        
+     hrs                                       1002       1       1       6   .data       
+     year                                      1003       2       2       2   .data       
+     month                                     1005       2       2       2   .data       
+     weekday                                   1007       2       2       2   .data       
+     day                                       1009       2       2       2   .data       
+     clockEvent                                1017       2       2       3   .bss        
+     TimeZoneActive                            1019       1       1       4   .bss        
      mins                                      101A       1       1       5   .bss        
      secs                                      101B       1       1       5   .bss        
      ticks                                     101C       2       2       4   .bss        
@@ -1236,20 +1236,20 @@ MODULE:                 -- dcf77.c.o --
      readPort                                  C88C       A      10       1   .text       
      initDCF77                                 C896      13      19       1   .text       
      sampleSignalDCF77                         C8A9      93     147       1   .text       
-     processEventsDCF77                        C93C     344     836      86   .text       
+     processEventsDCF77                        C93C     361     865      86   .text       
 - VARIABLES:
-     bitStateD                                 100A       1       1       5   .data       
+     bitStateD                                 100B       1       1       5   .data       
      dcf77Event                                1020       2       2       3   .bss        
      dYear                                     1022       2       2      14   .bss        
-     dMonth                                    1024       2       2       5   .bss        
-     dWeekday                                  1026       2       2       9   .bss        
-     dDay                                      1028       2       2      10   .bss        
+     dMonth                                    1024       2       2      10   .bss        
+     dWeekday                                  1026       2       2       8   .bss        
+     dDay                                      1028       2       2      11   .bss        
      dHour                                     102A       1       1      11   .bss        
      dMinute                                   102B       1       1      12   .bss        
      timeSignalLow                             102C       2       2       2   .bss        
      timeFallingEdge                           102E       2       2       2   .bss        
      statePrevSignal                           1030       1       1       4   .bss        
-     parityBit                                 1031       1       1       8   .bss        
+     parityBit                                 1031       1       1       9   .bss        
      timeOfLastSignal.1                        1032       2       2       2   .bss        
 
 *********************************************************************************************
@@ -1265,8 +1265,8 @@ MODULE STATISTIC
   led.asm.o                                    0     43      0
   ticker.asm.o                                 0     68      2
   clock.c.o                                   18    320     75
-  dcf77.c.o                                   21   1016      0
-  other                                      256     17     15
+  dcf77.c.o                                   21   1045      0
+  other                                      256     17     16
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
@@ -1276,10 +1276,10 @@ SECTION: ".text"
   processEventsClock setDate setClock displayTimeClock displayDate 
   initializePort readPort initDCF77 sampleSignalDCF77 processEventsDCF77 int12 
 SECTION: ".data"
-  VAR00001 temp1 year month weekday day bitStateD 
+  VAR00001 temp1 hrs year month weekday day bitStateD 
 SECTION: ".bss"
-  btn3 StateBtn uptime pbuf clockEvent TimeZoneActive hrs mins secs ticks 
-  uptime dcf77Event dYear dMonth dWeekday dDay dHour dMinute timeSignalLow 
+  btn3 StateBtn uptime pbuf clockEvent TimeZoneActive mins secs ticks uptime 
+  dcf77Event dYear dMonth dWeekday dDay dHour dMinute timeSignalLow 
   timeFallingEdge statePrevSignal parityBit timeOfLastSignal.1 
 SECTION: ".init"
   Init _Startup initLCD inext1 inext2 writeLine writeLine1 wDo next eol wEnd 
@@ -2877,33 +2877,33 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
      VAR00001                                  1000       1       1       2   .data       
      temp1                                     1001       1       1       0   .data       
-     year                                      1002       2       2       2   .data       
-     month                                     1004       2       2       2   .data       
-     weekday                                   1006       2       2       2   .data       
-     day                                       1008       2       2       2   .data       
-     bitStateD                                 100A       1       1       5   .data       
-     btn3                                      100B       2       2       2   .bss        
-     StateBtn                                  100D       1       1       2   .bss        
-     uptime                                    100E       2       2       2   .bss        
-     pbuf                                      1010       6       6      15   .bss        
-     clockEvent                                1016       2       2       3   .bss        
-     TimeZoneActive                            1018       1       1       4   .bss        
-     hrs                                       1019       1       1       6   .bss        
+     hrs                                       1002       1       1       6   .data       
+     year                                      1003       2       2       2   .data       
+     month                                     1005       2       2       2   .data       
+     weekday                                   1007       2       2       2   .data       
+     day                                       1009       2       2       2   .data       
+     bitStateD                                 100B       1       1       5   .data       
+     btn3                                      100C       2       2       2   .bss        
+     StateBtn                                  100E       1       1       2   .bss        
+     uptime                                    100F       2       2       2   .bss        
+     pbuf                                      1011       6       6      15   .bss        
+     clockEvent                                1017       2       2       3   .bss        
+     TimeZoneActive                            1019       1       1       4   .bss        
      mins                                      101A       1       1       5   .bss        
      secs                                      101B       1       1       5   .bss        
      ticks                                     101C       2       2       4   .bss        
      uptime                                    101E       2       2       2   .bss        
      dcf77Event                                1020       2       2       3   .bss        
      dYear                                     1022       2       2      14   .bss        
-     dMonth                                    1024       2       2       5   .bss        
-     dWeekday                                  1026       2       2       9   .bss        
-     dDay                                      1028       2       2      10   .bss        
+     dMonth                                    1024       2       2      10   .bss        
+     dWeekday                                  1026       2       2       8   .bss        
+     dDay                                      1028       2       2      11   .bss        
      dHour                                     102A       1       1      11   .bss        
      dMinute                                   102B       1       1      12   .bss        
      timeSignalLow                             102C       2       2       2   .bss        
      timeFallingEdge                           102E       2       2       2   .bss        
      statePrevSignal                           1030       1       1       4   .bss        
-     parityBit                                 1031       1       1       8   .bss        
+     parityBit                                 1031       1       1       9   .bss        
      timeOfLastSignal.1                        1032       2       2       2   .bss        
      Init                                      C000      29      41       1   .init       
      _Startup                                  C029      10      16       0   .init       
@@ -2954,24 +2954,24 @@ OBJECT LIST SORTED BY ADDRESS
      readPort                                  C88C       A      10       1   .text       
      initDCF77                                 C896      13      19       1   .text       
      sampleSignalDCF77                         C8A9      93     147       1   .text       
-     processEventsDCF77                        C93C     344     836      86   .text       
-     _BDIVMODS                                 CC80       B      11       1   RUNTIME     
-     _LCMP_P                                   CC8B      15      21       3   RUNTIME     
-     _LNEG                                     CCA0       D      13       1   RUNTIME     
-     _ILSEXT                                   CCAD       7       7       2   RUNTIME     
-     _CASE_DIRECT_BYTE                         CCB4       5       5       1   RUNTIME     
-     _CASE_CHECKED                             CCB9       B      11       1   RUNTIME     
-     _CASE_SEARCH_8                            CCC4      17      23       1   RUNTIME     
-     _CASE_SEARCH_8_BYTE                       CCDB      1A      26       1   RUNTIME     
-     VAR00002                                  CCF5       1       1       1   .const      
-     VAR00003                                  CCF6       1       1       0   .const      
-     VAR00004                                  CCF7       1       1       0   .const      
-     VAR00005                                  CCF8       1       1       0   .const      
-     VAR00006                                  CCF9       1       1       1   .const      
-     VAR00007                                  CCFA       1       1       0   .const      
-     VAR00008                                  CCFB       1       1       0   .const      
-     VAR00009                                  CCFC       1       1       0   .const      
-     VAR00010                                  CCFD       1       1       0   .const      
+     processEventsDCF77                        C93C     361     865      86   .text       
+     _BDIVMODS                                 CC9D       B      11       1   RUNTIME     
+     _LCMP_P                                   CCA8      15      21       3   RUNTIME     
+     _LNEG                                     CCBD       D      13       1   RUNTIME     
+     _ILSEXT                                   CCCA       7       7       2   RUNTIME     
+     _CASE_DIRECT_BYTE                         CCD1       5       5       1   RUNTIME     
+     _CASE_CHECKED                             CCD6       B      11       1   RUNTIME     
+     _CASE_SEARCH_8                            CCE1      17      23       1   RUNTIME     
+     _CASE_SEARCH_8_BYTE                       CCF8      1A      26       1   RUNTIME     
+     VAR00002                                  CD12       1       1       1   .const      
+     VAR00003                                  CD13       1       1       0   .const      
+     VAR00004                                  CD14       1       1       0   .const      
+     VAR00005                                  CD15       1       1       0   .const      
+     VAR00006                                  CD16       1       1       1   .const      
+     VAR00007                                  CD17       1       1       0   .const      
+     VAR00008                                  CD18       1       1       0   .const      
+     VAR00009                                  CD19       1       1       0   .const      
+     VAR00010                                  CD1A       1       1       0   .const      
      int12                                     FFE6       2       2       0   .text       
 
 *********************************************************************************************
@@ -2994,34 +2994,37 @@ rtshc12.c.o (ansisi.lib):
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xCCFE ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xCD1B ---- SIZE       4 ---
 Filling bytes inserted
- 00091002
-------- ROM-ADDRESS: 0xCD02 ---- RAM-ADDRESS: 0x1002 ---- SIZE       2 ---
+ 000A1002
+------- ROM-ADDRESS: 0xCD1F ---- RAM-ADDRESS: 0x1002 ---- SIZE       1 ---
+Name of initialized Object : hrs
+ 17
+------- ROM-ADDRESS: 0xCD20 ---- RAM-ADDRESS: 0x1003 ---- SIZE       2 ---
 Name of initialized Object : year
  07E5
-------- ROM-ADDRESS: 0xCD04 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCD22 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xCD05 ---- RAM-ADDRESS: 0x1005 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCD23 ---- RAM-ADDRESS: 0x1006 ---- SIZE       1 ---
 Name of initialized Object : month:1
  01
-------- ROM-ADDRESS: 0xCD06 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCD24 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xCD07 ---- RAM-ADDRESS: 0x1007 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCD25 ---- RAM-ADDRESS: 0x1008 ---- SIZE       1 ---
 Name of initialized Object : weekday:1
  07
-------- ROM-ADDRESS: 0xCD08 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCD26 ---- SIZE       1 ---
 Filling bytes inserted
  00
-------- ROM-ADDRESS: 0xCD09 ---- RAM-ADDRESS: 0x1009 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCD27 ---- RAM-ADDRESS: 0x100A ---- SIZE       1 ---
 Name of initialized Object : day:1
  01
-------- ROM-ADDRESS: 0xCD0A ---- RAM-ADDRESS: 0x100A ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCD28 ---- RAM-ADDRESS: 0x100B ---- SIZE       1 ---
 Name of initialized Object : bitStateD
  FF
-------- ROM-ADDRESS: 0xCD0B ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xCD29 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3247,6 +3250,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 10
-Total size of all blocks to be downloaded: 3345
+Number of blocks to be downloaded: 9
+Total size of all blocks to be downloaded: 3375
 

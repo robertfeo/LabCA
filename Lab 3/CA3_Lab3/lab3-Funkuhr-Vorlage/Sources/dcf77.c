@@ -363,6 +363,7 @@ void processEventsDCF77(DCF77EVENT e){
         if(e == VALIDONE){
             dDay+=20;
             parityBit++; 
+        }
         if((dDay < 0) || (dDay > 31)){
              bitStateD= -1;
              setLED(0x04);
@@ -385,7 +386,13 @@ void processEventsDCF77(DCF77EVENT e){
           if(e == VALIDONE){
             dWeekday+=4;
             parityBit++; 
-          }break; 
+          }
+          if((dWeekday < 1) || (dWeekday > 7)){
+                      bitStateD = -1;
+                      setLED(0x04);
+                      clrLED(0x08);
+                  }
+                  break; 
         //month
         case 45:
            if(e == VALIDONE){
@@ -394,23 +401,23 @@ void processEventsDCF77(DCF77EVENT e){
            }break; 
         case 46:
             if(e == VALIDONE){
-            dWeekday+=2;
+            dMonth+=2;
             parityBit++; 
             }break;  
         case 47:
         if(e == VALIDONE){
-            dWeekday+=4;
+            dMonth+=4;
             parityBit++; 
         }break; 
         case 48:
          if(e == VALIDONE){
-            dWeekday+=8;
+            dMonth+=8;
             parityBit++; 
          }break; 
          
         case 49:
          if(e == VALIDONE){
-            dWeekday+=10;
+            dMonth+=10;
             parityBit++; 
          }
          if((dMonth < 0) || (dMonth > 12)){
@@ -481,4 +488,3 @@ void processEventsDCF77(DCF77EVENT e){
             }
       }
   }   
-}

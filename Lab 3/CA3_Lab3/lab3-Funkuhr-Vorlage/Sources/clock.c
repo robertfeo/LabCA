@@ -24,7 +24,7 @@ CLOCKEVENT clockEvent = NOCLOCKEVENT;
 
 // Modul internal global variables
 static char TimeZoneActive = 0;
-static char hrs = 0, mins = 0, secs = 0;
+static char hrs = 23, mins = 0, secs = 0;
 static int  year = 2021, month = 1, weekday = 7, day = 1;
 static int ticks = 0;
 static int uptime = 0;
@@ -109,11 +109,11 @@ void processEventsClock(CLOCKEVENT event)
 // Allow other modules, e.g. DCF77, so set the date
 // Parameters:  year, month, weekday, day as integers
 // Returns:     -
-void setDate(int years, int months, int weekdays, int days)
+void setDate(int years, int months, int weekdays, int days1)
 {   
     year = years;
     month = months;
-    day = days;
+    day = days1;
     weekday = weekdays;
 }
 
