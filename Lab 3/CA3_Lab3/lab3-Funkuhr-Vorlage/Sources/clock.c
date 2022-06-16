@@ -21,18 +21,16 @@
 // Global variable holding the last clock event
 CLOCKEVENT clockEvent = NOCLOCKEVENT;
 
-
 // Modul internal global variables
 static char TimeZoneActive = 0;
 static char hrs = 23, mins = 0, secs = 0;
-static int  year = 2021, month = 1, weekday = 7, day = 1;
+static int  year = 2017, month = 1, weekday = 7, day = 1;
 static int ticks = 0;
 static int uptime = 0;
 
 // Modul internal global constants
 const char days[8][4] = { "Err", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun" };
 const char timeZone[2][3] = { "DE", "US" };
-
 
 // ****************************************************************************
 //  Initialize clock module
@@ -88,7 +86,8 @@ void toggleTimeZone(void)
 // Parameter:   clock event, normally SECONDTICK
 // Returns:     -
 void processEventsClock(CLOCKEVENT event)
-{   if (event==NOCLOCKEVENT)
+{   
+    if (event==NOCLOCKEVENT)
         return;
 
     if (++secs >= 60)
@@ -103,7 +102,6 @@ void processEventsClock(CLOCKEVENT event)
             }
         }
      }
-     //globale variable setzen displayEvent
 }
 // ****************************************************************************
 // Allow other modules, e.g. DCF77, so set the date
@@ -137,10 +135,13 @@ void displayTimeClock(void)
 {   
     char uhrzeit[32] = "00:00:00";
     char tempH = hrs;
-    if(TimeZoneActive){
+    if(TimeZoneActive)
+    {
       if(hrs<6){          
         tempH=24-hrs-6;
-      } else{
+      } 
+      else
+      {
         tempH=hrs-6;
       }
     }

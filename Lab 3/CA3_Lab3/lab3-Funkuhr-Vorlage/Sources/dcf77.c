@@ -62,11 +62,10 @@ void initializePort(void)
 // Returns:     0 if signal is Low, >0 if signal is High
 char readPort(void)
 {
-    if((PTH&1) == 0){
-    //direkt hier leds steuern, die zweite die signal anzeigt von dcf77
+    if((PTH&1) == 0)
+    {
         return 0;  
     } else{
-    //dann clearen
         return 1;  
     }
 }
@@ -75,13 +74,11 @@ char readPort(void)
 //  Initialize DCF77 module
 //  Called once before using the module
 void initDCF77(void)
-{   setClock((char) dHour, (char) dMinute, 0);
+{   
+    setClock((char) dHour, (char) dMinute, 0);
     displayDate();
-
     initializePort();
 }
-
-
 
 // ****************************************************************************
 //  Read and evaluate DCF77 signal and detect events
@@ -92,23 +89,25 @@ void initDCF77(void)
 DCF77EVENT sampleSignalDCF77(int currentTime)
 {   DCF77EVENT e = NODCF77EVENT;
                                         
-   // if((readPortSim()) != statePrevSignal){                     //  No-Edge      
+   // if((readPortSim()) != statePrevSignal){               //  No-Edge      
     static int timeOfLastSignal;
     if(currentTime - timeOfLastSignal <= 3000)
-    {                                                                 //  No-Edge
+    {                                                       //  No-Edge
         if((readPort()) != statePrevSignal)
         {                          
-            int tempTime;                                            //  Positive-Edge
+            int tempTime;                                   //  Positive-Edge
             if(statePrevSignal == 0)
             {                               
                 clrLED(0x02);
                 tempTime = currentTime - timeSignalLow;
                 statePrevSignal = 1;
-                if((tempTime >= 70) && (tempTime <= 130)){
+                if((tempTime >= 70) && (tempTime <= 130))
+                {
                    //  Low for  70-130ms
                     e = VALIDZERO;                   
                 } 
-                else if((tempTime >= 170) && (tempTime <= 230)){  
+                else if((tempTime >= 170) && (tempTime <= 230))
+                {  
                     //  Low for 170-230ms
                     e = VALIDONE;  
                 } 
@@ -117,19 +116,23 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
                     e = INVALID;
                 }
             } 
-            else{                                                       //  Negative-Edge
+            else
+            {                                           //  Negative-Edge
                 setLED(0x02);
                 tempTime = currentTime - timeFallingEdge;
                 statePrevSignal = 0;
-                if((tempTime >= 900) && (tempTime <= 1100)){
+                if((tempTime >= 900) && (tempTime <= 1100))
+                {
                     // Last falling edge was 900-1100ms ago
                     e = VALIDSECOND;
                 } 
-                else if((tempTime >= 1900) && (tempTime <= 2100)){
+                else if((tempTime >= 1900) && (tempTime <= 2100))
+                {
                     // Last falling edge was 1900-2100ms ago
                     e = VALIDMINUTE;
                 } 
-                else{
+                else
+                {
                     // Last falling edge was any other timeperiod ago
                     e = INVALID;
                 }
@@ -153,7 +156,8 @@ DCF77EVENT sampleSignalDCF77(int currentTime)
 // Contains the DCF77 state machine
 // Parameter:   Result of sampleSignalDCF77 as parameter
 // Returns:     -
-void processEventsDCF77(DCF77EVENT e){
+void processEventsDCF77(DCF77EVENT e)
+{
       if(e == VALIDMINUTE)
       {
         if(bitStateD > 0)
@@ -165,326 +169,380 @@ void processEventsDCF77(DCF77EVENT e){
         bitStateD = 0;
         clrLED(0x04); 
       }
-      else if(bitStateD >= 0){          // Waiting for signal start (VALIDMINUTE)
-        if(e == VALIDSECOND){
+      else if(bitStateD >= 0) // Waiting for signal start (VALIDMINUTE)
+      {    
+        if(e == VALIDSECOND)
+        {
             bitStateD++;          
         } 
-        else if(e == INVALID){
+        else if(e == INVALID)
+        {
             bitStateD = -1;
             setLED(0x04);
             clrLED(0x08);
         } 
-      else{
-        switch(bitStateD){
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-        case 13:
-        case 14:
-        case 15:
-        case 16:        
-        case 17:  
-        case 18: 
-        case 19: break; 
-        case 20: //always 1 byte
-             if(e == VALIDZERO){
-             bitStateD = -1;
-             setLED(0x04);               
-             clrLED(0x08);
-             }
-            parityBit = 0;
-            dMinute = 0;
-            break;
-        //Minuten
-        case 21:
-            if(e == VALIDONE){ 
-            dMinute+=1;
-            parityBit++; 
-            }
-            break; 
-        case 22:
-            if(e == VALIDONE){ 
-            dMinute+=2;
-            parityBit++; 
-            }
-            break; 
-        case 23:
-            if(e == VALIDONE){ 
-            dMinute+=4;
-            parityBit++; 
-            }
-            break;
-         
-        case 24:
-            if(e == VALIDONE){ 
-            dMinute+=8;
-            parityBit++; 
-            }
-            break; 
-        case 25:
-            if(e == VALIDONE){     
-            dMinute+=10;
-            parityBit++; 
-            }
-            break; 
-        case 26:
-            if(e == VALIDONE){ 
-            dMinute+=20;
-            parityBit++; 
-             }
-            break; 
-        case 27:
-            if(e == VALIDONE){ 
-            dMinute+=40;
-            parityBit++; 
-            }
-            break; 
-        case 28:
-            if(((e == VALIDONE) && ((parityBit%2) == 0)) || ((e == VALIDZERO) && ((parityBit%2) == 1))){
-                bitStateD = -1;
-                setLED(0x04);
-                clrLED(0x08);  
-            } 
- 
-            else if ((dMinute < 0) || (dMinute > 59)){
-                bitStateD = -1;
-                setLED(0x04);
-                clrLED(0x08);
-            } else{
-            }
-            parityBit = 0;
-            dHour = 0;
-            break; 
-        //hours
-        case 29:
-            if(e == VALIDONE){
-
-            dHour+=1;
-            parityBit++; 
-            }
-            break; ; 
-        case 30:
-            if(e == VALIDONE){
-
-            dHour+=2;
-            parityBit++; 
-            }
-            break;  
-        case 31:
-            if(e == VALIDONE){
-            dHour+=4;
-            parityBit++; 
-            }
-            break;  
-        case 32:
-            if(e == VALIDONE){
-
-            dHour+=8;
-            parityBit++; 
-            }
-            break;  
-        case 33:
-            if(e == VALIDONE){
-
-            dHour+=10;
-            parityBit++; 
-            }
-            break; 
-        case 34:
-            if(e == VALIDONE){
-
-            dHour+=20;
-            parityBit++; 
-            }
-            break; 
-        case 35:
-           if(((e == VALIDONE) && ((parityBit%2) == 0)) || ((e == VALIDZERO) && ((parityBit%2) == 1))){
-                bitStateD = -1;
-                setLED(0x04);
-                clrLED(0x08);  
-            } 
-            else if((dHour < 0) || (dHour > 23)){
-                bitStateD = -1;
-                setLED(0x04);
-                clrLED(0x08);
-            }
-            else{
-            }
-            parityBit = 0;
-            dDay = 0;
-            dWeekday = 0;
-            dMonth = 0;
-            dYear = 0;
-            break;
-         
-        //days
-        case 36:
-         if(e == VALIDONE){
-            dDay+=1;
-            parityBit++; 
-            break;  
+      else
+      {
+        switch(bitStateD)
+        {
+          case 0:
+          case 1:
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+          case 7:
+          case 8:
+          case 9:
+          case 10:
+          case 11:
+          case 12:
+          case 13:
+          case 14:
+          case 15:
+          case 16:        
+          case 17:  
+          case 18: 
+          case 19: break; 
+          case 20: //always 1 byte
+              if(e == VALIDZERO)
+              {
+                  bitStateD = -1;
+                  setLED(0x04);               
+                  clrLED(0x08);
+              }
+              parityBit = 0;
+              dMinute = 0;
+              break;
+          //  Minutes
+          case 21:
+              if(e == VALIDONE)
+              { 
+                  dMinute+=1;
+                  parityBit++; 
+              }
+              break; 
+          case 22:
+              if(e == VALIDONE)
+              { 
+                  dMinute+=2;
+                  parityBit++; 
+              }
+              break; 
+          case 23:
+              if(e == VALIDONE)
+              { 
+                  dMinute+=4;
+                  parityBit++; 
+              }
+              break;
+           
+          case 24:
+              if(e == VALIDONE)
+              { 
+                  dMinute+=8;
+                  parityBit++; 
+              }
+              break; 
+          case 25:
+              if(e == VALIDONE)
+              {     
+                  dMinute+=10;
+                  parityBit++; 
+              }
+              break; 
+          case 26:
+              if(e == VALIDONE)
+              { 
+                  dMinute+=20;
+                  parityBit++; 
+              }
+              break; 
+          case 27:
+              if(e == VALIDONE)
+              { 
+                  dMinute+=40;
+                  parityBit++; 
+              }
+              break; 
+          case 28:
+              if(((e == VALIDONE) && ((parityBit%2) == 0)) || ((e == VALIDZERO) && ((parityBit%2) == 1)))
+              {
+                  bitStateD = -1;
+                  setLED(0x04);
+                  clrLED(0x08);  
+              } 
+   
+              else if ((dMinute < 0) || (dMinute > 59))
+              {
+                  bitStateD = -1;
+                  setLED(0x04);
+                  clrLED(0x08);
+              } else{
+              }
+              parityBit = 0;
+              dHour = 0;
+              break; 
+          //  Hours
+          case 29:
+              if(e == VALIDONE)
+              {
+              dHour+=1;
+              parityBit++; 
+              }
+              break; ; 
+          case 30:
+              if(e == VALIDONE)
+              {
+              dHour+=2;
+              parityBit++; 
+              }
+              break;  
+          case 31:
+              if(e == VALIDONE)
+              {
+              dHour+=4;
+              parityBit++; 
+              }
+              break;  
+          case 32:
+              if(e == VALIDONE)
+              {
+              dHour+=8;
+              parityBit++; 
+              }
+              break;  
+          case 33:
+              if(e == VALIDONE)
+              {
+              dHour+=10;
+              parityBit++; 
+              }
+              break; 
+          case 34:
+              if(e == VALIDONE)
+              {
+              dHour+=20;
+              parityBit++; 
+              }
+              break; 
+          case 35:
+              if(((e == VALIDONE) && ((parityBit%2) == 0)) || ((e == VALIDZERO) && ((parityBit%2) == 1)))
+              {
+                  bitStateD = -1;
+                  setLED(0x04);
+                  clrLED(0x08);  
+              } 
+              else if((dHour < 0) || (dHour > 23))
+              {
+                  bitStateD = -1;
+                  setLED(0x04);
+                  clrLED(0x08);
+              }
+              else{}
+              parityBit = 0;
+              dDay = 0;
+              dWeekday = 0;
+              dMonth = 0;
+              dYear = 0;
+              break;
+          //  Days
+          case 36:
+              if(e == VALIDONE)
+              {
+                  dDay+=1;
+                  parityBit++; 
+              }
+           break;
+          case 37:
+              if(e == VALIDONE)
+              {
+                  dDay+=2;
+                  parityBit++; 
+              }
+              break; 
+          case 38:
+              if(e == VALIDONE)
+              {
+                  dDay+=4;
+                  parityBit++; 
+              }
+              break;
+          case 39:
+              if(e == VALIDONE)
+              {
+                  dDay+=8;
+                  parityBit++; 
+              }
+              break;
+          case 40:
+              if(e == VALIDONE)
+              {
+                  dDay+=10;
+                  parityBit++; 
+              }
+              break; 
+          case 41:
+              if(e == VALIDONE)
+              {
+                  dDay+=20;
+                  parityBit++; 
+              }
+              if((dDay < 0) || (dDay > 31))
+              {
+                  bitStateD= -1;
+                  setLED(0x04);
+                  clrLED(0x08);
+              }
+              break;
+          //  Weekday (just for parity usage)
+          case 42:
+              if(e == VALIDONE)
+              {
+                  dWeekday+=1;
+                  parityBit++; 
+              }
+              break; 
+          case 43:
+              if(e == VALIDONE)
+              {
+                  dWeekday+=2;
+                  parityBit++; 
+              }
+              break; 
+          case 44:
+              if(e == VALIDONE)
+              {
+                  dWeekday+=4;
+                  parityBit++; 
+              }
+              if((dWeekday < 1) || (dWeekday > 7))
+              {
+                  bitStateD = -1;
+                  setLED(0x04);
+                  clrLED(0x08);
+              }
+              break; 
+          //  Month
+          case 45:
+              if(e == VALIDONE)
+              {
+                  dMonth+=1;
+                  parityBit++; 
+              }
+              break; 
+          case 46:
+              if(e == VALIDONE)
+              {
+                  dMonth+=2;
+                  parityBit++; 
+              }
+              break;  
+          case 47:
+              if(e == VALIDONE)
+              {
+                  dMonth+=4;
+                  parityBit++; 
+              }
+              break; 
+          case 48:
+              if(e == VALIDONE)
+              {
+                  dMonth+=8;
+                  parityBit++; 
+              }
+              break;
+          case 49:
+              if(e == VALIDONE)
+              {
+                  dMonth+=10;
+                  parityBit++; 
+              }
+              if((dMonth < 0) || (dMonth > 12))
+              {
+                  bitStateD = -1;
+                  setLED(0x04);
+                  clrLED(0x08);
+              } 
+              break; 
+          //  Year
+          case 50:
+              if(e == VALIDONE)
+              {
+                  dYear+=1;
+                  parityBit++; 
+              }
+              break;  
+          case 51:
+              if(e == VALIDONE)
+              {
+                  dYear+=2;
+                  parityBit++; 
+              }
+              break; 
+          case 52:
+              if(e == VALIDONE)
+              {
+                  dYear+=4;
+                  parityBit++; 
+              }
+              break; 
+          case 53:
+              if(e == VALIDONE)
+              {
+                  dYear+=8;
+                  parityBit++; 
+              }
+              break;  
+          case 54:
+              if(e == VALIDONE)
+              {
+                  dYear+=10;
+                  parityBit++; 
+              }
+              break;  
+          case 55:
+              if(e == VALIDONE)
+              {
+                  dYear+=20;
+                  parityBit++; 
+              }
+              break; 
+          case 56:
+              if(e == VALIDONE)
+              {
+                  dYear+=40;
+                  parityBit++; 
+              }
+              break;  
+          case 57:      
+              if(e == VALIDONE)
+              {
+                  dYear+=80;
+                  parityBit++; 
+              }
+              break; 
+          case 58:
+              if(((e == VALIDONE) && ((parityBit%2) == 0)) || ((e == VALIDZERO) && ((parityBit%2) == 1)))
+              {
+                  bitStateD = -1;                     
+                  setLED(0x04);
+                  clrLED(0x08);  
+              } 
+              else if((dYear < 0) || (dYear > 99))
+              {
+                  bitStateD = -1;
+                  setLED(0x04);
+                  clrLED(0x08);
+              } 
+              else
+              {
+                  dYear += 2000; 
+              }
+              parityBit= 0;
+              break;
          }
-        case 37:
-           if(e == VALIDONE){
-            dDay+=2;
-            parityBit++; 
-            break; 
-           }
-        case 38:
-             if(e == VALIDONE){
-            dDay+=4;
-            parityBit++; 
-             }
-            break; 
-             
-        case 39:
-             if(e == VALIDONE){
-            dDay+=8;
-            parityBit++; 
-             }
-            break;
-        case 40:
-        if(e == VALIDONE){
-            dDay+=10;
-            parityBit++; 
-        }
-            break; 
-        case 41:
-        if(e == VALIDONE){
-            dDay+=20;
-            parityBit++; 
-        }
-        if((dDay < 0) || (dDay > 31)){
-             bitStateD= -1;
-             setLED(0x04);
-             clrLED(0x08);
-        }
-            
-        break;
-        //weekday
-        case 42:
-        if(e == VALIDONE){
-            dWeekday+=1;
-            parityBit++; 
-        }break; 
-        case 43:
-         if(e == VALIDONE){
-            dWeekday+=2;
-            parityBit++; 
-         }break; 
-        case 44:
-          if(e == VALIDONE){
-            dWeekday+=4;
-            parityBit++; 
-          }
-          if((dWeekday < 1) || (dWeekday > 7)){
-                      bitStateD = -1;
-                      setLED(0x04);
-                      clrLED(0x08);
-                  }
-                  break; 
-        //month
-        case 45:
-           if(e == VALIDONE){
-            dMonth+=1;
-            parityBit++; 
-           }break; 
-        case 46:
-            if(e == VALIDONE){
-            dMonth+=2;
-            parityBit++; 
-            }break;  
-        case 47:
-        if(e == VALIDONE){
-            dMonth+=4;
-            parityBit++; 
-        }break; 
-        case 48:
-         if(e == VALIDONE){
-            dMonth+=8;
-            parityBit++; 
-         }break; 
-         
-        case 49:
-         if(e == VALIDONE){
-            dMonth+=10;
-            parityBit++; 
-         }
-         if((dMonth < 0) || (dMonth > 12)){
-              bitStateD = -1;
-              setLED(0x04);
-              clrLED(0x08);
-          } 
-         break; 
-        //year
-        case 50:
-        if(e == VALIDONE){
-            dYear+=1;
-            parityBit++; 
-        }break;  
-        case 51:
-        if(e == VALIDONE){
-            dYear+=2;
-            parityBit++; 
-        }break; 
-        case 52:
-        if(e == VALIDONE){
-            dYear+=4;
-            parityBit++; 
-        }break; 
-        case 53:
-         if(e == VALIDONE){
-            dYear+=8;
-            parityBit++; 
-         }break;  
-        case 54:
-          if(e == VALIDONE){
-            dYear+=10;
-            parityBit++; 
-            }break;  
-        case 55:
-            if(e == VALIDONE){
-            dYear+=20;
-            parityBit++; 
-            }break; 
-        case 56:
-            if(e == VALIDONE){
-            dYear+=40;
-            parityBit++; 
-            }break;  
-        case 57:      
-            if(e == VALIDONE){
-            dYear+=80;
-            parityBit++; 
-            }break; 
-        case 58:
-        if(((e == VALIDONE) && ((parityBit%2) == 0)) || ((e == VALIDZERO) && ((parityBit%2) == 1))){
-                      bitStateD = -1;                     
-                      setLED(0x04);
-                      clrLED(0x08);  
-                  } 
-                  else if((dYear < 0) || (dYear > 99)){
-                      bitStateD = -1;
-                      setLED(0x04);
-                      clrLED(0x08);
-                  } else{
-                      dYear += 2000; 
-                  }
-                  parityBit= 0;
-                  break;
-              
-
-                }
-            }
       }
-  }   
+   }
+}   

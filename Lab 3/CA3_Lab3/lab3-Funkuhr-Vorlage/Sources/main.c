@@ -49,7 +49,6 @@ void main(void)
             displayDate();
             dcf77Event = NODCF77EVENT;          // Reset dcf77 event
         }
-        //if(PTH ==0x08)
         if((PTH == 0x08 && ((uptime - btn3) > 0))  || (StateBtn!= (PTH & 8)))                     // Button 2
             {        
               toggleTimeZone();

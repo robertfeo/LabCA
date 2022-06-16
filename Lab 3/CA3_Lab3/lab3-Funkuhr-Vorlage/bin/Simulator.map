@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "C:\Users\selin\Documents\GitHub\LabCA\Lab 3\CA3_Lab3\lab3-Funkuhr-Vorlage\bin\Simulator.abs"
+PROGRAM "D:\Wissen\Hochschule\Semester 4\Computerarchitektur\Repositories\LabCA\Lab 3\CA3_Lab3\lab3-Funkuhr-Vorlage\bin\Simulator.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -3002,7 +3002,7 @@ Name of initialized Object : hrs
  17
 ------- ROM-ADDRESS: 0xCD20 ---- RAM-ADDRESS: 0x1003 ---- SIZE       2 ---
 Name of initialized Object : year
- 07E5
+ 07E1
 ------- ROM-ADDRESS: 0xCD22 ---- SIZE       1 ---
 Filling bytes inserted
  00
